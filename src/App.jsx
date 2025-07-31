@@ -268,14 +268,18 @@ function LandmarkGallery({ onSelect }) {
     return () => stopAutoPlay();
   }, [startAutoPlay, stopAutoPlay]);
 
-  const nextSlide = () => {
+  const nextSlide = (e) => {
+    e.preventDefault();
+    e.stopPropagation();
     const nextIndex = (currentIndex + 1) % landmarks.length;
     scrollToIndex(nextIndex);
     stopAutoPlay();
     setTimeout(startAutoPlay, 5000);
   };
 
-  const prevSlide = () => {
+  const prevSlide = (e) => {
+    e.preventDefault();
+    e.stopPropagation();
     const prevIndex = currentIndex === 0 ? landmarks.length - 1 : currentIndex - 1;
     scrollToIndex(prevIndex);
     stopAutoPlay();
@@ -307,10 +311,18 @@ function LandmarkGallery({ onSelect }) {
           ))}
         </div>
         
-        <button onClick={prevSlide} className="fixed left-2 sm:left-4 md:left-6 lg:left-8 xl:left-12 top-1/2 -translate-y-1/2 bg-white/90 dark:bg-gray-800/90 backdrop-blur-sm p-2 sm:p-3 rounded-full shadow-lg hover:bg-white dark:hover:bg-gray-800 hover:scale-110 transform transition-all duration-300 ease-in-out z-20" aria-label="이전 슬라이드">
+        <button 
+          onMouseDown={prevSlide} 
+          className="fixed left-2 sm:left-4 md:left-6 lg:left-8 xl:left-12 top-1/2 -translate-y-1/2 bg-white/90 dark:bg-gray-800/90 backdrop-blur-sm p-2 sm:p-3 rounded-full shadow-lg hover:bg-white dark:hover:bg-gray-800 hover:scale-110 transform transition-all duration-300 ease-in-out z-20" 
+          aria-label="이전 슬라이드"
+        >
           <ChevronLeft className="w-5 h-5 sm:w-6 sm:h-6 text-gray-700 dark:text-gray-300" />
         </button>
-        <button onClick={nextSlide} className="fixed right-2 sm:right-4 md:right-6 lg:right-8 xl:right-12 top-1/2 -translate-y-1/2 bg-white/90 dark:bg-gray-800/90 backdrop-blur-sm p-2 sm:p-3 rounded-full shadow-lg hover:bg-white dark:hover:bg-gray-800 hover:scale-110 transform transition-all duration-300 ease-in-out z-20" aria-label="다음 슬라이드">
+        <button 
+          onMouseDown={nextSlide} 
+          className="fixed right-2 sm:right-4 md:right-6 lg:right-8 xl:right-12 top-1/2 -translate-y-1/2 bg-white/90 dark:bg-gray-800/90 backdrop-blur-sm p-2 sm:p-3 rounded-full shadow-lg hover:bg-white dark:hover:bg-gray-800 hover:scale-110 transform transition-all duration-300 ease-in-out z-20" 
+          aria-label="다음 슬라이드"
+        >
           <ChevronRight className="w-5 h-5 sm:w-6 sm:h-6 text-gray-700 dark:text-gray-300" />
         </button>
       </div>
