@@ -197,7 +197,7 @@ export default function App() {
 
 function ThemeToggler({ theme, toggleTheme }) {
   return (
-    <button onClick={toggleTheme} className="fixed top-16 sm:top-20 right-5 bg-gray-100 dark:bg-gray-800 p-3 rounded-full text-gray-800 dark:text-gray-200 shadow-lg transition-transform transform hover:scale-110 z-50" aria-label="Toggle theme">
+    <button onClick={toggleTheme} className="fixed top-[70px] right-8 bg-gray-100 dark:bg-gray-800 p-3 rounded-full text-gray-800 dark:text-gray-200 shadow-lg transition-transform transform hover:scale-110 z-50" aria-label="Toggle theme">
       {theme === 'dark' ? <Sun /> : <Moon />}
     </button>
   );
