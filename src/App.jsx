@@ -307,16 +307,12 @@ function LandmarkGallery({ onSelect }) {
           ))}
         </div>
         
-        <div className="flex justify-center py-4 flex-shrink-0">
-          <div className="flex space-x-3">
-            <button onClick={prevSlide} className="bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm p-3 rounded-full shadow-lg hover:bg-white dark:hover:bg-gray-800 hover:scale-110 transform transition-all duration-300 ease-in-out" aria-label="이전 슬라이드">
-              <ChevronLeft className="w-6 h-6 text-gray-700 dark:text-gray-300" />
-            </button>
-            <button onClick={nextSlide} className="bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm p-3 rounded-full shadow-lg hover:bg-white dark:hover:bg-gray-800 hover:scale-110 transform transition-all duration-300 ease-in-out" aria-label="다음 슬라이드">
-              <ChevronRight className="w-6 h-6 text-gray-700 dark:text-gray-300" />
-            </button>
-          </div>
-        </div>
+        <button onClick={prevSlide} className="absolute left-4 top-1/2 -translate-y-1/2 bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm p-3 rounded-full shadow-lg hover:bg-white dark:hover:bg-gray-800 hover:scale-110 transform transition-all duration-300 ease-in-out z-10" aria-label="이전 슬라이드">
+          <ChevronLeft className="w-6 h-6 text-gray-700 dark:text-gray-300" />
+        </button>
+        <button onClick={nextSlide} className="absolute right-4 top-1/2 -translate-y-1/2 bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm p-3 rounded-full shadow-lg hover:bg-white dark:hover:bg-gray-800 hover:scale-110 transform transition-all duration-300 ease-in-out z-10" aria-label="다음 슬라이드">
+          <ChevronRight className="w-6 h-6 text-gray-700 dark:text-gray-300" />
+        </button>
       </div>
     </div>
   );
