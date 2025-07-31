@@ -567,7 +567,7 @@ function Editor({ landmark, onBack }) {
                   <button
                     key={category.id}
                     onClick={() => handleCategorySelect(category)}
-                    className={`px-4 py-2 rounded-full text-sm font-semibold leading-5 transition-colors focus:outline-none ${
+                    className={`px-5 py-3 rounded-full text-base font-semibold leading-5 transition-colors focus:outline-none ${
                       selectedCategory?.id === category.id
                         ? 'bg-black text-white dark:bg-blue-600 dark:text-white'
                         : 'bg-gray-200 text-gray-700 dark:bg-gray-800 dark:text-gray-300 hover:bg-gray-300 dark:hover:bg-gray-700'
