@@ -189,7 +189,7 @@ export default function App() {
       <div className="flex-1 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full flex flex-col">
         {view === 'gallery' ? <LandmarkGallery onSelect={handleSelectLandmark} /> : <Editor landmark={selectedLandmark} onBack={handleBackToGallery} />}
       </div>
-      <footer className="text-center py-4 text-gray-500 dark:text-gray-400 text-xs flex-shrink-0"><p>Copyright 2025 The Seoul Institute. All Rights Reserved.</p></footer>
+      <footer className="text-center pt-8 pb-4 text-gray-500 dark:text-gray-400 text-xs flex-shrink-0"><p>Copyright 2025 The Seoul Institute. All Rights Reserved.</p></footer>
       <ThemeToggler theme={theme} toggleTheme={toggleTheme} />
     </div>
   );
@@ -519,7 +519,7 @@ function Editor({ landmark, onBack }) {
   return (
     <div className="h-full flex flex-col py-1">
       <button onClick={onBack} className="flex items-center gap-2 text-gray-500 hover:text-black dark:text-gray-400 dark:hover:text-white transition-colors mb-4 flex-shrink-0 font-bold"><ChevronLeft />뒤로가기</button>
-      <div className="flex-1 grid grid-cols-1 lg:grid-cols-[0.4fr,0.6fr] gap-4 lg:gap-6 min-h-0">
+      <div className="flex-1 grid grid-cols-1 lg:grid-cols-[0.4fr,0.6fr] gap-4 lg:gap-10 min-h-0">
         <div className="flex flex-col min-h-0">
             <h2 className="text-xl md:text-2xl font-bold mb-1 flex-shrink-0">{landmark.title}</h2>
             <p className="text-gray-600 dark:text-gray-400 mb-3 text-xs md:text-sm flex-shrink-0 max-h-10 overflow-hidden">{landmark.description}</p>
