@@ -185,11 +185,11 @@ export default function App() {
   const handleBackToGallery = () => { setSelectedLandmark(null); flushSync(() => setView('gallery')); };
 
   return (
-    <div className="bg-white dark:bg-black text-gray-900 dark:text-gray-100 min-h-screen font-sans transition-colors duration-500">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div className="bg-white dark:bg-black text-gray-900 dark:text-gray-100 h-screen font-sans transition-colors duration-500 flex flex-col overflow-hidden">
+      <div className="flex-1 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full flex flex-col">
         {view === 'gallery' ? <LandmarkGallery onSelect={handleSelectLandmark} /> : <Editor landmark={selectedLandmark} onBack={handleBackToGallery} />}
       </div>
-      <footer className="text-center py-8 text-gray-500 dark:text-gray-400 text-sm"><p>Copyright 2025 The Seoul Institute. All Rights Reserved.</p></footer>
+      <footer className="text-center py-4 text-gray-500 dark:text-gray-400 text-xs flex-shrink-0"><p>Copyright 2025 The Seoul Institute. All Rights Reserved.</p></footer>
       <ThemeToggler theme={theme} toggleTheme={toggleTheme} />
     </div>
   );
@@ -283,39 +283,39 @@ function LandmarkGallery({ onSelect }) {
   };
 
   return (
-    <div>
-      <header className="py-12 md:py-20 text-center">
-        <h1 className="text-4xl sm:text-5xl md:text-6xl font-bold tracking-tight bg-clip-text text-transparent bg-gradient-to-r from-gray-900 to-gray-600 dark:from-gray-100 dark:to-gray-400">서울의 미래를 그리다</h1>
-        <p className="mt-4 max-w-2xl mx-auto text-base sm:text-lg md:text-xl text-gray-600 dark:text-gray-400">
+    <div className="flex flex-col h-full">
+      <header className="py-6 md:py-8 text-center flex-shrink-0">
+        <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold tracking-tight bg-clip-text text-transparent bg-gradient-to-r from-gray-900 to-gray-600 dark:from-gray-100 dark:to-gray-400">서울의 미래를 그리다</h1>
+        <p className="mt-3 max-w-2xl mx-auto text-sm sm:text-base md:text-lg text-gray-600 dark:text-gray-400">
           서울의 미래공간을 나만의 스타일로 그려보세요. 서울 미래 공간을 선택 후, 날씨, 도시배경, 그림 스타일을 나의 취향에 맞게 선택하면 AI가 당신만의 서울을 창조합니다.<br/>
           완성된 그림은 QR로 소장 가능합니다.
         </p>
       </header>
       
-      <div className="relative">
+      <div className="flex-1 relative flex flex-col min-h-0">
         <div 
           ref={scrollContainerRef}
-          className="flex overflow-x-auto space-x-6 pb-4 hide-scrollbar"
+          className="flex overflow-x-auto space-x-6 pb-4 hide-scrollbar flex-1"
           style={{ scrollSnapType: 'x mandatory', scrollBehavior: 'smooth' }}
           onMouseEnter={stopAutoPlay}
           onMouseLeave={startAutoPlay}
         >
           {landmarks.map((landmark) => (
-            <div key={landmark.id} className="flex-shrink-0 w-[80vw] sm:w-[65vw] max-w-sm" style={{ scrollSnapAlign: 'center' }}>
+            <div key={landmark.id} className="flex-shrink-0 w-[80vw] sm:w-[65vw] max-w-sm h-full" style={{ scrollSnapAlign: 'center' }}>
               <MediaCard landmark={landmark} onSelect={onSelect} />
             </div>
           ))}
         </div>
-      </div>
-      
-      <div className="flex justify-center mt-8">
-        <div className="flex space-x-3">
-          <button onClick={prevSlide} className="bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm p-3 rounded-full shadow-lg hover:bg-white dark:hover:bg-gray-800 hover:scale-110 transform transition-all duration-300 ease-in-out" aria-label="이전 슬라이드">
-            <ChevronLeft className="w-6 h-6 text-gray-700 dark:text-gray-300" />
-          </button>
-          <button onClick={nextSlide} className="bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm p-3 rounded-full shadow-lg hover:bg-white dark:hover:bg-gray-800 hover:scale-110 transform transition-all duration-300 ease-in-out" aria-label="다음 슬라이드">
-            <ChevronRight className="w-6 h-6 text-gray-700 dark:text-gray-300" />
-          </button>
+        
+        <div className="flex justify-center py-4 flex-shrink-0">
+          <div className="flex space-x-3">
+            <button onClick={prevSlide} className="bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm p-3 rounded-full shadow-lg hover:bg-white dark:hover:bg-gray-800 hover:scale-110 transform transition-all duration-300 ease-in-out" aria-label="이전 슬라이드">
+              <ChevronLeft className="w-6 h-6 text-gray-700 dark:text-gray-300" />
+            </button>
+            <button onClick={nextSlide} className="bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm p-3 rounded-full shadow-lg hover:bg-white dark:hover:bg-gray-800 hover:scale-110 transform transition-all duration-300 ease-in-out" aria-label="다음 슬라이드">
+              <ChevronRight className="w-6 h-6 text-gray-700 dark:text-gray-300" />
+            </button>
+          </div>
         </div>
       </div>
     </div>
@@ -337,7 +337,7 @@ function MediaCard({ landmark, onSelect }) {
 
   return (
     <div 
-      className="h-[75vh] rounded-3xl overflow-hidden cursor-pointer group relative flex flex-col justify-between p-6 md:p-8"
+      className="h-full rounded-3xl overflow-hidden cursor-pointer group relative flex flex-col justify-between p-6 md:p-8"
       onClick={() => onSelect(landmark)}
     >
       {!isLoaded && <div className="absolute inset-0 bg-gray-200 dark:bg-gray-800 animate-pulse"></div>}
@@ -517,14 +517,14 @@ function Editor({ landmark, onBack }) {
   };
 
   return (
-    <div className="py-12 md:py-16">
-      <button onClick={onBack} className="flex items-center gap-2 text-gray-500 hover:text-black dark:text-gray-400 dark:hover:text-white transition-colors mb-8"><ChevronLeft />뒤로가기</button>
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 xl:gap-16">
-        <div className="lg:sticky top-8 self-start">
-            <h2 className="text-3xl md:text-4xl font-bold mb-2">{landmark.title}</h2>
-            <p className="text-gray-600 dark:text-gray-400 mb-4 text-base md:text-lg">{landmark.description}</p>
-            <div className="relative">
-                <div className="aspect-[3/4] rounded-2xl overflow-hidden bg-gray-100 dark:bg-gray-900 flex items-center justify-center">
+    <div className="h-full flex flex-col py-4">
+      <button onClick={onBack} className="flex items-center gap-2 text-gray-500 hover:text-black dark:text-gray-400 dark:hover:text-white transition-colors mb-4 flex-shrink-0"><ChevronLeft />뒤로가기</button>
+      <div className="flex-1 grid grid-cols-1 lg:grid-cols-2 gap-6 lg:gap-8 min-h-0">
+        <div className="flex flex-col min-h-0">
+            <h2 className="text-2xl md:text-3xl font-bold mb-2 flex-shrink-0">{landmark.title}</h2>
+            <p className="text-gray-600 dark:text-gray-400 mb-4 text-sm md:text-base flex-shrink-0">{landmark.description}</p>
+            <div className="relative flex-1 min-h-0">
+                <div className="h-full rounded-2xl overflow-hidden bg-gray-100 dark:bg-gray-900 flex items-center justify-center">
                     {isLoading ? (
                         <div className="text-center"><Sparkles className="animate-spin h-12 w-12 text-gray-500 mx-auto" /><p className="mt-4 text-gray-600 dark:text-gray-400">{loadingStep}</p></div>
                     ) : error ? (
@@ -555,8 +555,8 @@ function Editor({ landmark, onBack }) {
                 )}
             </div>
         </div>
-        <div className="lg:pt-24">
-          <div className="space-y-8">
+        <div className="flex flex-col min-h-0">
+          <div className="flex-1 space-y-6 overflow-y-auto">
             {/* 1단계: 카테고리 선택 (탭) */}
             <div>
               <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-1">1단계: 스타일 카테고리 선택</h3>
@@ -602,8 +602,8 @@ function Editor({ landmark, onBack }) {
             )}
           </div>
 
-          <div className="mt-10 md:mt-12">
-            <button onClick={handleGenerate} disabled={isLoading || !selectedStyle} className="w-full bg-blue-600 hover:bg-blue-500 disabled:bg-gray-400 dark:disabled:bg-gray-600 disabled:cursor-not-allowed text-white font-bold py-3 md:py-4 px-4 rounded-xl flex items-center justify-center gap-2 transition-all duration-300 transform hover:scale-105"><Sparkles />{isLoading ? '생성 중...' : '나만의 서울 미래상 생성하기'}</button>
+          <div className="py-4 flex-shrink-0">
+            <button onClick={handleGenerate} disabled={isLoading || !selectedStyle} className="w-full bg-blue-600 hover:bg-blue-500 disabled:bg-gray-400 dark:disabled:bg-gray-600 disabled:cursor-not-allowed text-white font-bold py-3 px-4 rounded-xl flex items-center justify-center gap-2 transition-all duration-300 transform hover:scale-105"><Sparkles />{isLoading ? '생성 중...' : '나만의 서울 미래상 생성하기'}</button>
           </div>
         </div>
       </div>
