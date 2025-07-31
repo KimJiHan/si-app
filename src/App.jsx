@@ -522,12 +522,12 @@ function Editor({ landmark, onBack }) {
   };
 
   return (
-    <div className="h-full flex flex-col py-4">
-      <button onClick={onBack} className="flex items-center gap-2 text-gray-500 hover:text-black dark:text-gray-400 dark:hover:text-white transition-colors mb-4 flex-shrink-0"><ChevronLeft />뒤로가기</button>
-      <div className="flex-1 grid grid-cols-1 lg:grid-cols-2 gap-6 lg:gap-8 min-h-0">
+    <div className="h-full flex flex-col py-2">
+      <button onClick={onBack} className="flex items-center gap-2 text-gray-500 hover:text-black dark:text-gray-400 dark:hover:text-white transition-colors mb-2 flex-shrink-0"><ChevronLeft />뒤로가기</button>
+      <div className="flex-1 grid grid-cols-1 lg:grid-cols-2 gap-4 lg:gap-6 min-h-0">
         <div className="flex flex-col min-h-0">
-            <h2 className="text-2xl md:text-3xl font-bold mb-2 flex-shrink-0">{landmark.title}</h2>
-            <p className="text-gray-600 dark:text-gray-400 mb-4 text-sm md:text-base flex-shrink-0">{landmark.description}</p>
+            <h2 className="text-xl md:text-2xl font-bold mb-1 flex-shrink-0">{landmark.title}</h2>
+            <p className="text-gray-600 dark:text-gray-400 mb-3 text-xs md:text-sm flex-shrink-0 max-h-10 overflow-hidden">{landmark.description}</p>
             <div className="relative flex-1 min-h-0">
                 <div className="h-full rounded-2xl overflow-hidden bg-gray-100 dark:bg-gray-900 flex items-center justify-center">
                     {isLoading ? (
@@ -546,7 +546,7 @@ function Editor({ landmark, onBack }) {
                             }
                           })()} 
                           alt="Generated Landmark" 
-                          className="w-full h-full object-cover transition-opacity duration-500" 
+                          className="w-full h-full object-contain transition-opacity duration-500" 
                           onError={(e) => { e.target.onerror = null; e.target.src=`https://placehold.co/900x1200/000000/FFFFFF?text=Error+Loading+Image`; }}
                         />
                     )}
