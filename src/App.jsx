@@ -581,7 +581,7 @@ function Editor({ landmark, onBack }) {
 
             {/* 2단계: 스타일 선택 (버튼) */}
             {selectedCategory && (
-              <div>
+              <div className="mt-8">
                 <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-1">2단계: 세부 스타일 선택</h3>
                 <p className="text-sm text-blue-600 dark:text-blue-400 mb-4">{selectedCategory.description}</p>
                 <div className="grid grid-cols-2 sm:grid-cols-3 gap-4">
