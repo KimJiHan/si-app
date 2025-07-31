@@ -185,7 +185,7 @@ export default function App() {
   const handleBackToGallery = () => { setSelectedLandmark(null); flushSync(() => setView('gallery')); };
 
   return (
-    <div className="bg-white dark:bg-black text-gray-900 dark:text-gray-100 h-screen font-sans transition-colors duration-500 flex flex-col overflow-hidden">
+    <div className="bg-white dark:bg-black text-gray-900 dark:text-gray-100 h-screen font-sans transition-colors duration-500 flex flex-col overflow-hidden pt-12 sm:pt-16">
       <div className="flex-1 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full flex flex-col">
         {view === 'gallery' ? <LandmarkGallery onSelect={handleSelectLandmark} /> : <Editor landmark={selectedLandmark} onBack={handleBackToGallery} />}
       </div>
@@ -197,7 +197,7 @@ export default function App() {
 
 function ThemeToggler({ theme, toggleTheme }) {
   return (
-    <button onClick={toggleTheme} className="fixed top-5 right-5 bg-gray-100 dark:bg-gray-800 p-3 rounded-full text-gray-800 dark:text-gray-200 shadow-lg transition-transform transform hover:scale-110 z-50" aria-label="Toggle theme">
+    <button onClick={toggleTheme} className="fixed top-16 sm:top-20 right-5 bg-gray-100 dark:bg-gray-800 p-3 rounded-full text-gray-800 dark:text-gray-200 shadow-lg transition-transform transform hover:scale-110 z-50" aria-label="Toggle theme">
       {theme === 'dark' ? <Sun /> : <Moon />}
     </button>
   );
@@ -284,7 +284,7 @@ function LandmarkGallery({ onSelect }) {
 
   return (
     <div className="flex flex-col h-full">
-      <header className="py-6 md:py-8 text-center flex-shrink-0">
+      <header className="py-4 md:py-6 text-center flex-shrink-0">
         <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold tracking-tight bg-clip-text text-transparent bg-gradient-to-r from-gray-900 to-gray-600 dark:from-gray-100 dark:to-gray-400">서울의 미래를 그리다</h1>
         <p className="mt-3 max-w-2xl mx-auto text-sm sm:text-base md:text-lg text-gray-600 dark:text-gray-400">
           서울의 미래공간을 나만의 스타일로 그려보세요. 서울 미래 공간을 선택 후, 날씨, 도시배경, 그림 스타일을 나의 취향에 맞게 선택하면 AI가 당신만의 서울을 창조합니다.<br/>
@@ -517,8 +517,8 @@ function Editor({ landmark, onBack }) {
   };
 
   return (
-    <div className="h-full flex flex-col py-2">
-      <button onClick={onBack} className="flex items-center gap-2 text-gray-500 hover:text-black dark:text-gray-400 dark:hover:text-white transition-colors mb-2 flex-shrink-0"><ChevronLeft />뒤로가기</button>
+    <div className="h-full flex flex-col py-1">
+      <button onClick={onBack} className="flex items-center gap-2 text-gray-500 hover:text-black dark:text-gray-400 dark:hover:text-white transition-colors mb-1 flex-shrink-0"><ChevronLeft />뒤로가기</button>
       <div className="flex-1 grid grid-cols-1 lg:grid-cols-2 gap-4 lg:gap-6 min-h-0">
         <div className="flex flex-col min-h-0">
             <h2 className="text-xl md:text-2xl font-bold mb-1 flex-shrink-0">{landmark.title}</h2>
@@ -556,7 +556,7 @@ function Editor({ landmark, onBack }) {
             </div>
         </div>
         <div className="flex flex-col min-h-0">
-          <div className="flex-shrink-0" style={{ height: '80px' }}></div>
+          <div className="flex-shrink-0" style={{ height: '60px' }}></div>
           <div className="flex-1 space-y-6 overflow-y-auto">
             {/* 1단계: 카테고리 선택 (탭) */}
             <div>
