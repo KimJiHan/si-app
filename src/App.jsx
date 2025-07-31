@@ -561,6 +561,7 @@ function Editor({ landmark, onBack }) {
             </div>
         </div>
         <div className="flex flex-col min-h-0">
+          <div className="flex-shrink-0" style={{ height: '80px' }}></div>
           <div className="flex-1 space-y-6 overflow-y-auto">
             {/* 1단계: 카테고리 선택 (탭) */}
             <div>
