@@ -1,0 +1,6 @@
+# Exclude files from GitHub language statistics
+*.md linguist-documentation
+*.json linguist-generated
+
+# Ensure consistent line endings
+* text=auto

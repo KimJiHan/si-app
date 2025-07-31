@@ -9,5 +9,5 @@
 # This change addresses the need by:
 # 
 # 
-# Note: Remove the Co-Authored-By line below if not using Claude
-# Co-Authored-By: Claude <noreply@anthropic.com>
+# Note: Do NOT include Co-Authored-By lines for AI assistants
+# This prevents them from appearing in GitHub Contributors
