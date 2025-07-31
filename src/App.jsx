@@ -13,33 +13,35 @@ const ChevronRight = (props) => (<svg xmlns="http://www.w3.org/2000/svg" width="
 
 
 // === Landmark Data ===
+const getImageUrl = (path) => `${import.meta.env.BASE_URL}${path.startsWith('/') ? path.slice(1) : path}`;
+
 const landmarks = [
   { 
     id: 'nodeul-island', 
     title: '노들 글로벌 예술섬', 
     description: '한강의 중심 노들섬을 자연과 예술, 독특한 경험이 가득한 공간으로 재탄생시키는 프로젝트입니다.', 
-    imageUrl: '/image/noddle global art island/noddle global art island2.jpg',
+    imageUrl: 'image/noddle global art island/noddle global art island2.jpg',
     editorImageUrl: 'https://raw.githubusercontent.com/KimJiHan/test_workbench/main/%E1%84%89%E1%85%A5%E1%86%AF%E1%84%80%E1%85%A8%E1%84%89%E1%85%A5%E1%86%AF%E1%84%86%E1%85%A7%E1%86%BC%E1%84%89%E1%85%A5_%E1%84%80%E1%85%A9%E1%86%BC%E1%84%8C%E1%85%AE%E1%86%BC%E1%84%87%E1%85%AE(%E1%84%83%E1%85%A9%E1%86%BC%E1%84%8E%E1%85%B3%E1%86%A8).jpg'
   },
   { 
     id: 'ddp-seoul-light', 
     title: 'DDP 서울라이트', 
     description: '동대문디자인플라자(DDP)의 외벽을 거대한 캔버스 삼아 펼쳐지는 화려한 빛의 축제입니다.', 
-    imageUrl: '/image/Dongdaemun DDP/Dongdaemun DDP2.jpg',
+    imageUrl: 'image/Dongdaemun DDP/Dongdaemun DDP2.jpg',
     editorImageUrl: 'https://raw.githubusercontent.com/KimJiHan/test_workbench/main/ebdb20d8eea4d.jpg'
   },
   { 
     id: 'seoul-ring', 
     title: '서울링', 
     description: '상암동 하늘공원에 조성될 세계 최대 규모의 대관람차입니다. 서울의 전경을 한눈에 담습니다.', 
-    imageUrl: '/image/seoulring/soeulring1.jpg',
+    imageUrl: 'image/seoulring/soeulring1.jpg',
     editorImageUrl: 'https://raw.githubusercontent.com/KimJiHan/test_workbench/main/%E1%84%90%E1%85%AE%E1%84%89%E1%85%B5%E1%84%83%E1%85%A9(1).jpg'
   },
   { 
     id: 'seoul-arena', 
     title: '서울 아레나', 
     description: '창동역 인근에 건립되는 국내 최초의 아레나급 음악 전문 공연장입니다. K-POP의 중심지입니다.', 
-    imageUrl: '/image/seoul arena/seoul arena2.jpg',
+    imageUrl: 'image/seoul arena/seoul arena2.jpg',
     editorImageUrl: 'https://raw.githubusercontent.com/KimJiHan/test_workbench/main/%E1%84%89%E1%85%A5%E1%84%8B%E1%85%AE%E1%86%AF%E1%84%8B%E1%85%A1%E1%84%85%E1%85%A6%E1%84%82%E1%85%A12.jpg'
   },
   { 
@@ -53,8 +55,8 @@ const landmarks = [
     id: 'han-river-bus', 
     title: '한강 리버버스', 
     description: '친환경 대중교통 수단으로 한강을 가로지르는 수상버스입니다. 주요 거점을 연결합니다.', 
-    imageUrl: '/image/hanriverbus/hanriverbus1.jpg',
-    editorImageUrl: '/image/hanriverbus/hanriverbus5.png'
+    imageUrl: 'image/hanriverbus/hanriverbus1.jpg',
+    editorImageUrl: 'image/hanriverbus/hanriverbus5.png'
   }
 ];
 
@@ -315,9 +317,9 @@ function LandmarkGallery({ onSelect }) {
 
 function MediaCard({ landmark, onSelect }) {
   const [isLoaded, setIsLoaded] = useState(false);
-  const optimizedImageUrl = landmark.imageUrl.startsWith('/') 
-    ? landmark.imageUrl 
-    : `https://images.weserv.nl/?url=${encodeURIComponent(landmark.imageUrl)}&w=600&h=800&fit=cover&q=90&output=webp`;
+  const optimizedImageUrl = landmark.imageUrl.startsWith('http') 
+    ? `https://images.weserv.nl/?url=${encodeURIComponent(landmark.imageUrl)}&w=600&h=800&fit=cover&q=90&output=webp`
+    : getImageUrl(landmark.imageUrl);
 
   return (
     <div 
@@ -350,7 +352,9 @@ function Editor({ landmark, onBack }) {
   const [selectedCategory, setSelectedCategory] = useState(null);
   const [selectedStyle, setSelectedStyle] = useState(null);
   
-  const editorReferenceImage = landmark.editorImageUrl || landmark.imageUrl;
+  const editorReferenceImage = landmark.editorImageUrl || (
+    landmark.imageUrl.startsWith('http') ? landmark.imageUrl : getImageUrl(landmark.imageUrl)
+  );
   const [generatedImage, setGeneratedImage] = useState(editorReferenceImage);
   const [isBaseImage, setIsBaseImage] = useState(true);
   const [isLoading, setIsLoading] = useState(false);
