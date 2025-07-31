@@ -307,11 +307,11 @@ function LandmarkGallery({ onSelect }) {
           ))}
         </div>
         
-        <button onClick={prevSlide} className="absolute left-2 sm:left-4 md:left-6 lg:left-8 top-1/2 -translate-y-1/2 bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm p-3 rounded-full shadow-lg hover:bg-white dark:hover:bg-gray-800 hover:scale-110 transform transition-all duration-300 ease-in-out z-20" aria-label="이전 슬라이드">
-          <ChevronLeft className="w-6 h-6 text-gray-700 dark:text-gray-300" />
+        <button onClick={prevSlide} className="absolute -left-2 sm:-left-4 md:-left-6 lg:-left-8 top-1/2 -translate-y-1/2 bg-white/90 dark:bg-gray-800/90 backdrop-blur-sm p-2 sm:p-3 rounded-full shadow-lg hover:bg-white dark:hover:bg-gray-800 hover:scale-110 transform transition-all duration-300 ease-in-out z-20" aria-label="이전 슬라이드">
+          <ChevronLeft className="w-5 h-5 sm:w-6 sm:h-6 text-gray-700 dark:text-gray-300" />
         </button>
-        <button onClick={nextSlide} className="absolute right-2 sm:right-4 md:right-6 lg:right-8 top-1/2 -translate-y-1/2 bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm p-3 rounded-full shadow-lg hover:bg-white dark:hover:bg-gray-800 hover:scale-110 transform transition-all duration-300 ease-in-out z-20" aria-label="다음 슬라이드">
-          <ChevronRight className="w-6 h-6 text-gray-700 dark:text-gray-300" />
+        <button onClick={nextSlide} className="absolute -right-2 sm:-right-4 md:-right-6 lg:-right-8 top-1/2 -translate-y-1/2 bg-white/90 dark:bg-gray-800/90 backdrop-blur-sm p-2 sm:p-3 rounded-full shadow-lg hover:bg-white dark:hover:bg-gray-800 hover:scale-110 transform transition-all duration-300 ease-in-out z-20" aria-label="다음 슬라이드">
+          <ChevronRight className="w-5 h-5 sm:w-6 sm:h-6 text-gray-700 dark:text-gray-300" />
         </button>
       </div>
     </div>
