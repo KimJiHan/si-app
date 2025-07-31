@@ -524,7 +524,7 @@ function Editor({ landmark, onBack }) {
             <h2 className="text-xl md:text-2xl font-bold mb-1 flex-shrink-0">{landmark.title}</h2>
             <p className="text-gray-600 dark:text-gray-400 mb-3 text-xs md:text-sm flex-shrink-0 max-h-10 overflow-hidden">{landmark.description}</p>
             <div className="relative flex-1 min-h-0">
-                <div className="h-full rounded-2xl overflow-hidden bg-gray-100 dark:bg-gray-900 flex items-center justify-center">
+                <div className="h-full rounded-2xl overflow-hidden bg-gray-50 dark:bg-gray-800 flex items-center justify-center">
                     {isLoading ? (
                         <div className="text-center"><Sparkles className="animate-spin h-12 w-12 text-gray-500 mx-auto" /><p className="mt-4 text-gray-600 dark:text-gray-400">{loadingStep}</p></div>
                     ) : error ? (
@@ -541,7 +541,7 @@ function Editor({ landmark, onBack }) {
                             }
                           })()} 
                           alt="Generated Landmark" 
-                          className="w-full h-full object-contain transition-opacity duration-500" 
+                          className="w-full h-full object-cover transition-opacity duration-500" 
                           onError={(e) => { e.target.onerror = null; e.target.src=`https://placehold.co/900x1200/000000/FFFFFF?text=Error+Loading+Image`; }}
                         />
                     )}
