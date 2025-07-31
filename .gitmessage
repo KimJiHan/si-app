@@ -1,0 +1,13 @@
+# Commit message template
+# 
+# <type>: <subject>
+# 
+# <body>
+# 
+# Why:
+# 
+# This change addresses the need by:
+# 
+# 
+# Note: Remove the Co-Authored-By line below if not using Claude
+# Co-Authored-By: Claude <noreply@anthropic.com>

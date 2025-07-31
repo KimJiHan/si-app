@@ -1,0 +1,5 @@
+# This file maps commit authors to their canonical names and emails
+# Format: Canonical Name <canonical@email.com> <commit@email.com>
+
+# Map local commits to proper GitHub account
+KimJiHan <ksj1065@si.re.kr> jihan <jihan@jihanui-MacBookPro.local>
