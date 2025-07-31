@@ -514,7 +514,7 @@ function Editor({ landmark, onBack }) {
 
   return (
     <div className="h-full flex flex-col">
-      <button onClick={onBack} className="flex items-center gap-2 text-gray-500 hover:text-black dark:text-gray-400 dark:hover:text-white transition-colors mb-4 pt-2 flex-shrink-0 font-bold"><ChevronLeft />뒤로가기</button>
+      <button onClick={onBack} className="flex items-center gap-2 text-gray-500 hover:text-black dark:text-gray-400 dark:hover:text-white transition-colors mb-4 -mt-2 flex-shrink-0 font-bold"><ChevronLeft />뒤로가기</button>
       <div className="flex-1 grid grid-cols-1 lg:grid-cols-[0.4fr,0.6fr] gap-4 lg:gap-10 min-h-0">
         <div className="flex flex-col min-h-0">
             <h2 className="text-xl md:text-2xl font-bold mb-1 flex-shrink-0">{landmark.title}</h2>
