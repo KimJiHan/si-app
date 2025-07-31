@@ -56,10 +56,23 @@
    npm run dev
    ```
 
-### 배포 명령어
+### 배포 설정
+
+이 프로젝트는 GitHub Actions를 통해 자동으로 배포됩니다.
+
+#### GitHub Repository Secrets 설정
+
+1. GitHub 저장소로 이동: https://github.com/KimJiHan/si-app
+2. **Settings** → **Secrets and variables** → **Actions** 메뉴로 이동
+3. **New repository secret** 버튼 클릭
+4. 다음 Secret을 추가:
+   - **Name**: `VITE_GEMINI_API_KEY`
+   - **Secret**: 실제 Gemini API 키 값
+
+#### 수동 배포 (레거시)
 
 ```bash
-# GitHub Pages에 배포
+# 수동 배포 (GitHub Actions 사용 권장)
 npm run deploy
 ```
 
