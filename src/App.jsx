@@ -442,7 +442,12 @@ function Editor({ landmark, onBack }) {
       return;
     }
 
-    const apiKey = "AIzaSyB6bBtaaopSbL5lf0gi8zSnKx2vzQlVMP8"; 
+    const apiKey = import.meta.env.VITE_GEMINI_API_KEY;
+    
+    if (!apiKey) {
+      setError("API 키가 설정되지 않았습니다. 환경 변수를 확인해주세요.");
+      return;
+    }
     
     setIsLoading(true);
     setError(null);
