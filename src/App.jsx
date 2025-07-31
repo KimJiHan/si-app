@@ -13,7 +13,14 @@ const ChevronRight = (props) => (<svg xmlns="http://www.w3.org/2000/svg" width="
 
 
 // === Landmark Data ===
-const getImageUrl = (path) => `${import.meta.env.BASE_URL}${path.startsWith('/') ? path.slice(1) : path}`;
+const getImageUrl = (path) => {
+  if (path.startsWith('http')) {
+    return path; // 외부 URL은 그대로 반환
+  }
+  const baseUrl = import.meta.env.BASE_URL || '/';
+  const cleanPath = path.startsWith('/') ? path.slice(1) : path;
+  return `${baseUrl}${cleanPath}`;
+};
 
 const landmarks = [
   { 
@@ -317,9 +324,16 @@ function LandmarkGallery({ onSelect }) {
 
 function MediaCard({ landmark, onSelect }) {
   const [isLoaded, setIsLoaded] = useState(false);
-  const optimizedImageUrl = landmark.imageUrl.startsWith('http') 
-    ? `https://images.weserv.nl/?url=${encodeURIComponent(landmark.imageUrl)}&w=600&h=800&fit=cover&q=90&output=webp`
-    : getImageUrl(landmark.imageUrl);
+  
+  // 이미지 URL 결정 로직
+  let optimizedImageUrl;
+  if (landmark.imageUrl.startsWith('http')) {
+    // 외부 이미지는 Weserv를 통해 최적화
+    optimizedImageUrl = `https://images.weserv.nl/?url=${encodeURIComponent(landmark.imageUrl)}&w=600&h=800&fit=cover&q=90&output=webp`;
+  } else {
+    // 로컬 이미지는 직접 경로 사용
+    optimizedImageUrl = getImageUrl(landmark.imageUrl);
+  }
 
   return (
     <div 
@@ -517,9 +531,15 @@ function Editor({ landmark, onBack }) {
                         <div className="p-4 text-center"><p className="text-red-500 dark:text-red-400">오류 발생:</p><p className="text-sm text-red-600 dark:text-red-500 mt-2">{error}</p></div>
                     ) : (
                         <img 
-                          src={isBaseImage && generatedImage.startsWith('http') && !generatedImage.startsWith('data:') 
-                            ? `https://images.weserv.nl/?url=${encodeURIComponent(generatedImage)}` 
-                            : generatedImage} 
+                          src={(() => {
+                            if (generatedImage.startsWith('data:')) {
+                              return generatedImage; // Base64 이미지는 그대로
+                            } else if (generatedImage.startsWith('http')) {
+                              return isBaseImage ? `https://images.weserv.nl/?url=${encodeURIComponent(generatedImage)}` : generatedImage;
+                            } else {
+                              return getImageUrl(generatedImage); // 로컬 이미지
+                            }
+                          })()} 
                           alt="Generated Landmark" 
                           className="w-full h-full object-cover transition-opacity duration-500" 
                           onError={(e) => { e.target.onerror = null; e.target.src=`https://placehold.co/900x1200/000000/FFFFFF?text=Error+Loading+Image`; }}
