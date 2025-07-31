@@ -38,12 +38,20 @@
    cd si-app
    ```
 
-2. **의존성 설치**
+2. **환경 변수 설정**
+   ```bash
+   cp .env.example .env
+   # .env 파일을 열어서 VITE_GEMINI_API_KEY에 실제 API 키를 입력하세요
+   ```
+   
+   Google Gemini API 키는 [Google AI Studio](https://makersuite.google.com/app/apikey)에서 발급받을 수 있습니다.
+
+3. **의존성 설치**
    ```bash
    npm install
    ```
 
-3. **개발 서버 실행**
+4. **개발 서버 실행**
    ```bash
    npm run dev
    ```
