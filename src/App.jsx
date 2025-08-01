@@ -165,7 +165,7 @@ const animationPrompts = {
   'ghibli': {
     name: '스튜디오 지브리',
     style: '감성적 2D 애니메이션 (Emotional 2D Animation)',
-    prompt: 'A masterpiece in the **Studio Ghibli style**, charming, featuring beautifully detailed cloudscapes and a warm, nostalgic watercolor aesthetic, **by Hayao Miyazaki**. Highly detailed.'
+    prompt: 'A masterpiece in the **Studio Ghibli style**, charming, featuring beautifully detailed landscapes and a warm, nostalgic watercolor aesthetic, **by Hayao Miyazaki**. Highly detailed.'
   },
   'pixar': {
     name: '픽사',
