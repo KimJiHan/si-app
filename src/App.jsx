@@ -82,7 +82,7 @@ const artistPrompts = {
   'klimt': {
     name: '구스타프 클림트',
     movement: '상징주의 / 빈 분리파 (Symbolism / Vienna Secession)',
-    prompt: 'A masterpiece of the **Vienna Secession**, creating a decorative and symbolic composition with intricate, mosaic-like patterns, shimmering gold leaf, and swirling organic forms, **in the style of Gustav Klimt**. Highly detailed.'
+    prompt: 'A masterpiece of the **Vienna Secession**, creating a decorative and symbolic composition with intricate, mosaic-like patterns, and swirling organic forms, **in the style of Gustav Klimt**. Highly detailed.'
   },
   'monet': {
     name: '클로드 모네',
@@ -165,7 +165,7 @@ const animationPrompts = {
   'ghibli': {
     name: '스튜디오 지브리',
     style: '감성적 2D 애니메이션 (Emotional 2D Animation)',
-    prompt: 'A masterpiece in the **Studio Ghibli style**, charming cottage, featuring beautifully detailed cloudscapes and a warm, nostalgic watercolor aesthetic, **by Hayao Miyazaki**. Highly detailed.'
+    prompt: 'A masterpiece in the **Studio Ghibli style**, charming, featuring beautifully detailed cloudscapes and a warm, nostalgic watercolor aesthetic, **by Hayao Miyazaki**. Highly detailed.'
   },
   'pixar': {
     name: '픽사',
