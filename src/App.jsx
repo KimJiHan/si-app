@@ -67,6 +67,167 @@ const landmarks = [
   }
 ];
 
+// === Art Movement-Based Artist Prompts ===
+const artistPrompts = {
+  'van-gogh': {
+    name: '빈센트 반 고흐',
+    movement: '후기 인상주의 (Post-Impressionism)',
+    prompt: 'A masterpiece of **Post-Impressionism**, capturing a landscape scene with thick, swirling impasto and expressive, visible brushstrokes, using a vibrant and emotional color palette, **by Vincent van Gogh**. Highly detailed.'
+  },
+  'picasso': {
+    name: '파블로 피카소',
+    movement: '입체주의 (Cubism)',
+    prompt: 'A masterpiece of **Picasso\'s Cubism**, deconstructing a still life object into fragmented geometric planes, showing multiple viewpoints simultaneously within a limited color palette, **by Pablo Picasso**. Highly detailed.'
+  },
+  'klimt': {
+    name: '구스타프 클림트',
+    movement: '상징주의 / 빈 분리파 (Symbolism / Vienna Secession)',
+    prompt: 'A masterpiece of the **Vienna Secession**, creating a decorative and symbolic composition with intricate, mosaic-like patterns, shimmering gold leaf, and swirling organic forms, **in the style of Gustav Klimt**. Highly detailed.'
+  },
+  'monet': {
+    name: '클로드 모네',
+    movement: '인상주의 (Impressionism)',
+    prompt: 'A masterpiece of **Impressionism**, capturing the fleeting effects of light and atmosphere on water and landscapes with soft focus and short, visible brushstrokes, **by Claude Monet**. Highly detailed.'
+  },
+  'schiele': {
+    name: '에곤 쉴레',
+    movement: '표현주의 (Expressionism)',
+    prompt: 'A masterpiece of **Expressionism**, depicting a twisted, gnarled tree or a stark cityscape with raw, angular lines and an intense, nervous energy that conveys a deep psychological mood, **in the style of Egon Schiele**. Highly detailed.'
+  },
+  'warhol': {
+    name: '앤디 워홀',
+    movement: '팝 아트 (Pop Art)',
+    prompt: 'A masterpiece of **Pop Art**, using a flat, commercial, screen-printing aesthetic with bold, saturated colors and serial repetition of a mass-produced object, **by Andy Warhol**. Highly detailed.'
+  },
+  'kusama': {
+    name: '쿠사마 야요이',
+    movement: '강박 예술 / 미니멀리즘 (Obsessional Art / Minimalism)',
+    prompt: 'A masterpiece of **Obsessional Art**, creating a hallucinatory visual field through the infinite repetition of polka dots and net patterns over a high-contrast surface, **by Yayoi Kusama**. Highly detailed.'
+  },
+  'kim-hong-do': {
+    name: '김홍도',
+    movement: '풍속화 (Pungsok-hwa / Korean Genre Painting)',
+    prompt: 'A masterpiece of **Korean Genre Painting (Pungsok-hwa)**, **by Kim Hong-do**. Highly detailed.'
+  },
+  'jeong-seon': {
+    name: '정선',
+    movement: '진경산수화 (Jingyeong Sansu-hwa / True-view Landscape Painting)',
+    prompt: 'A masterpiece of **Korean True-view Landscape Painting (Jingyeong Sansu-hwa)**, capturing the grand and rugged beauty of Korean mountains with energetic, bold brushstrokes, contrasting wet ink washes with sharp, dry lines, **by Jeong Seon**. Highly detailed.'
+  },
+  'shin-yun-bok': {
+    name: '신윤복',
+    movement: '풍속화 (Pungsok-hwa / Korean Genre Painting)',
+    prompt: 'A masterpiece of **Korean Genre Painting (Pungsok-hwa)**, rendered with delicate, fine linework and a vibrant, rich color palette, **by Shin Yun-bok**. Highly detailed.'
+  }
+};
+
+// === Photorealistic Prompts ===
+const photorealisticPrompts = {
+  'heavy-snow': {
+    name: '함박눈',
+    style: '실사풍 (Photorealistic)',
+    prompt: 'A masterpiece of **photorealistic** style, capturing a heavy snowstorm. Thick, fluffy snowflakes are falling, creating soft textures on surfaces. Shot with a high-end DSLR, capturing the crisp details of the individual snowflakes against a cinematic background. Hyper-detailed, cinematic lighting.'
+  },
+  'full-bloom': {
+    name: '만개한 꽃',
+    style: '실사풍 (Photorealistic)',
+    prompt: 'A masterpiece in a **photorealistic** style, capturing a stunning scene of cherry blossom trees in full bloom. The bright spring sunlight filters through the pink petals, casting soft, dappled shadows on the ground. A gentle breeze scatters a few petals in the air. Shot with a shallow depth of field, focusing on the delicate flowers. Hyper-detailed, vibrant colors, soft lighting.'
+  },
+  'thunder-lightning': {
+    name: '천둥번개',
+    style: '실사풍 (Photorealistic)',
+    prompt: 'A masterpiece in a **photorealistic** style, capturing a dramatic moment as a massive fork of lightning illuminates the night sky over a city skyline. reflecting the intense flash of light and the dark, turbulent storm clouds above. A long-exposure shot capturing the raw power and electrifying beauty of the storm. Hyper-detailed, dramatic contrast, high dynamic range (HDR).'
+  },
+  'sunset': {
+    name: '노을',
+    style: '실사풍 (Photorealistic)', 
+    prompt: 'A masterpiece in a **photorealistic** style, depicting a spectacular sunset. The sky is ablaze with fiery oranges, deep purples, and soft pinks. The warm, golden light of the setting sun bathes the entire scene in a serene and magical glow. Hyper-detailed, golden hour lighting, breathtaking view.'
+  },
+  'strong-sunlight': {
+    name: '강한 햇빛',
+    style: '실사풍 (Photorealistic)',
+    prompt: 'A masterpiece in a **photorealistic** style, under the harsh midday sun. The strong sunlight creates sharp, defined shadows and intense highlights on various surfaces and textures. The scene is full of life, with the heat haze slightly visible in the distance. Hyper-detailed, high contrast, sharp focus.'
+  },
+  'autumn-leaves': {
+    name: '단풍·은행나무',
+    style: '실사풍 (Photorealistic)',
+    prompt: 'A masterpiece in a **photorealistic** style, featuring brilliant red maple and golden ginkgo trees in peak autumn foliage. The soft, warm autumn light filters through the canopy, enhancing the rich colors and creating a peaceful and picturesque scene. Hyper-detailed, vibrant autumn colors, serene atmosphere.'
+  },
+  'night-view': {
+    name: '멋진 야경',
+    style: '실사풍 (Photorealistic)',
+    prompt: 'A masterpiece in a **photorealistic** style, capturing a stunning panoramic night view of a sprawling metropolis from a high vantage point. The city is a sea of glittering lights, with streaks of car headlights creating dynamic light trails on the highways below. The clear night sky reveals a few stars, contrasting with the vibrant city lights. Long exposure, hyper-detailed, bokeh effects.'
+  }
+};
+
+// === Animation Prompts ===
+const animationPrompts = {
+  'ghibli': {
+    name: '스튜디오 지브리',
+    style: '감성적 2D 애니메이션 (Emotional 2D Animation)',
+    prompt: 'A masterpiece in the **Studio Ghibli style**, charming cottage, featuring beautifully detailed cloudscapes and a warm, nostalgic watercolor aesthetic, **by Hayao Miyazaki**. Highly detailed.'
+  },
+  'pixar': {
+    name: '픽사',
+    style: '3D 디지털 애니메이션 (3D Digital Animation)',
+    prompt: 'A masterpiece in the **Pixar animation style**, featuring a strong emphasis on realistic material textures and cinematic, narrative-driven lighting, **by Pixar Animation Studios**. Highly detailed.'
+  },
+  'disney': {
+    name: '디즈니',
+    style: '클래식 2D 애니메이션 (Classic 2D Animation)',
+    prompt: 'A masterpiece in the **classic Disney animation style**, rendered with smooth lines, a vibrant and magical color palette, and a sense of wonder and romance, **by Walt Disney Animation Studios**. Highly detailed.'
+  },
+  'japanese-anime': {
+    name: '일본 애니메이션',
+    style: '일본 애니메이션 (Japanese Animation)',
+    prompt: 'A masterpiece in the **Japanese animation style**, featuring a highly detailed and beautifully painted background of a quiet urban street corner, contrasted with clean, cel-shaded foreground objects, creating a distinctive blend of realism and stylization. Highly detailed.'
+  },
+  'webtoon': {
+    name: '웹툰',
+    style: '디지털 코믹 (Digital Comic)',
+    prompt: 'A masterpiece in the **digital comic (webtoon) style**, depicting an atmospheric interior scene, characterized by clean, sharp digital linework, simple cel-shading or soft gradient coloring, and dramatic use of lighting effects and focus to create a specific mood. Highly detailed.'
+  }
+};
+
+// === Illustration Prompts ===
+const illustrationPrompts = {
+  'watercolor': {
+    name: '수채화',
+    style: '수채화 페인팅 (Watercolor Painting)',
+    prompt: 'A masterpiece in the **watercolor painting style**, featuring soft, transparent color washes that bleed and blend into each other, creating delicate layered effects and a luminous quality that reveals the texture of the paper below. Highly detailed.'
+  },
+  'pencil': {
+    name: '연필',
+    style: '연필 드로잉 (Pencil Drawing)',
+    prompt: 'A masterpiece of **pencil drawing**, depicting an old, weathered leather-bound book and a pair of spectacles resting on a wooden table, showcasing a full range of tones, from delicate highlights to deep shadows, with visible cross-hatching and smudging for texture. Highly detailed.'
+  },
+  'crayon-colored-pencil': {
+    name: '크레파스/색연필',
+    style: '크레파스 및 색연필 스타일 (Crayon and Colored Pencil Style)',
+    prompt: 'A masterpiece in the **crayon and colored pencil style**, characterized by rich, waxy textures created by layering vibrant colors, with visible, deliberate strokes that build up a sense of warmth and handmade charm. Highly detailed.'
+  },
+  'neon-art': {
+    name: '네온 아트',
+    style: '네온 아트 (Neon Art)',
+    prompt: 'A masterpiece of **neon art**, featuring a glowing, stylized cityscape made of luminous glass tubes, radiating vibrant pink and cyan light against a dark, reflective background, creating a cyberpunk and retro atmosphere. Highly detailed.'
+  },
+  'paper-folding': {
+    name: '종이 접기',
+    style: '종이 공예 아트 (Papercraft Art)',
+    prompt: 'A masterpiece of **papercraft art**, depicting a complex architectural structure or abstract geometric form, all constructed from meticulously folded, cut, and layered colored paper, showcasing sharp creases and a tangible sense of depth. Highly detailed.'
+  },
+  'lego': {
+    name: '레고',
+    style: '레고 브릭 스타일 (Lego Brick Style)',
+    prompt: 'A masterpiece constructed in the **Lego brick style**, built entirely from colorful Lego bricks, showcasing the iconic studded texture and clever use of various block shapes to create curves and intricate details. Highly detailed.'
+  },
+  'knit-doll': {
+    name: '뜨개인형',
+    style: '아미구루미 / 뜨개인형 스타일 (Amigurumi / Knitted Doll Style)',
+    prompt: 'A masterpiece in the **amigurumi (knitted doll) style**, depicting a charming, small creature or object made of colorful yarn, featuring visible, tight crochet stitches, a soft and rounded form, and a cozy, handmade aesthetic. Highly detailed.'
+  }
+};
+
 // === AI Prompt Options (New Structure) ===
 const styleCategories = [
   {
@@ -74,14 +235,16 @@ const styleCategories = [
     name: '예술가 스타일',
     description: '유명 예술가의 화풍으로 서울의 미래를 그려보세요.',
     options: [
-      { label: '빈센트 반 고흐', value: 'in the style of Vincent van Gogh' },
-      { label: '파블로 피카소', value: 'in the style of Pablo Picasso' },
-      { label: '구스타프 클림트', value: 'in the style of Gustav Klimt' },
-      { label: '클로드 모네', value: 'in the style of Claude Monet' },
-      { label: '에곤 쉴레', value: 'in the style of Egon Schiele' },
-      { label: '앤디 워홀', value: 'in the style of Pop Art like Andy Warhol' },
-      { label: '쿠사마 야요이', value: 'in the style of Yayoi Kusama' },
-      { label: '한국민화(김홍도)', value: 'in the style of Korean folk painting (Minhwa) like Kim Hong-do' },
+      { label: '빈센트 반 고흐', value: 'van-gogh' },
+      { label: '파블로 피카소', value: 'picasso' },
+      { label: '구스타프 클림트', value: 'klimt' },
+      { label: '클로드 모네', value: 'monet' },
+      { label: '에곤 쉴레', value: 'schiele' },
+      { label: '앤디 워홀', value: 'warhol' },
+      { label: '쿠사마 야요이', value: 'kusama' },
+      { label: '김홍도', value: 'kim-hong-do' },
+      { label: '정선', value: 'jeong-seon' },
+      { label: '신윤복', value: 'shin-yun-bok' },
     ]
   },
   {
@@ -89,11 +252,11 @@ const styleCategories = [
     name: '애니메이션 스타일',
     description: '상상 속 애니메이션의 한 장면처럼 연출해보세요.',
     options: [
-      { label: '지브리', value: 'in the style of Studio Ghibli animation' },
-      { label: '픽사', value: 'in the style of Pixar animation' },
-      { label: '디즈니(인어공주)', value: 'in the style of classic Disney animation like The Little Mermaid' },
-      { label: <>일본 애니<br/>(귀멸의 칼날)</>, value: 'in the style of modern Japanese anime like Demon Slayer' },
-      { label: '웹툰 스타일', value: 'in the style of a Korean webtoon' },
+      { label: '지브리', value: 'ghibli' },
+      { label: '픽사', value: 'pixar' },
+      { label: '디즈니', value: 'disney' },
+      { label: '일본 애니메이션', value: 'japanese-anime' },
+      { label: '웹툰 스타일', value: 'webtoon' },
     ]
   },
   {
@@ -101,13 +264,13 @@ const styleCategories = [
     name: '일러스트 및 기타 스타일',
     description: '다양한 재료와 기법으로 독특한 질감을 표현해보세요.',
     options: [
-      { label: '수채화', value: 'in a watercolor painting style' },
-      { label: '연필 스케치', value: 'in a detailed pencil sketch style' },
-      { label: '크레파스/색연필', value: 'in a crayon and colored pencil drawing style' },
-      { label: '네온 아트', value: 'in a vibrant neon art style' },
-      { label: '종이 접기', value: 'in a paper origami (papercraft) style' },
-      { label: '레고', value: 'built with LEGO bricks, lego-style' },
-      { label: '뜨개인형', value: 'in a knitted doll (amigurumi) style' },
+      { label: '수채화', value: 'watercolor' },
+      { label: '연필 스케치', value: 'pencil' },
+      { label: '크레파스/색연필', value: 'crayon-colored-pencil' },
+      { label: '네온 아트', value: 'neon-art' },
+      { label: '종이 접기', value: 'paper-folding' },
+      { label: '레고', value: 'lego' },
+      { label: '뜨개인형', value: 'knit-doll' },
     ]
   },
   {
@@ -115,13 +278,13 @@ const styleCategories = [
     name: '실사풍 스타일',
     description: '실제 사진처럼 생생한 분위기를 연출해보세요.',
     options: [
-      { label: '함박눈', value: 'on a heavy snowy day' },
-      { label: '만개한 꽃', value: 'with flowers in full bloom' },
-      { label: '천둥번개', value: 'with dramatic stormy weather and lightning' },
-      { label: '노을', value: 'during a beautiful sunset with golden hour light' },
-      { label: '강한 햇빛', value: 'on a bright summer day with strong sunlight' },
-      { label: '단풍·은행나무', value: 'on an autumn day with colorful maple and ginkgo trees' },
-      { label: '멋진 야경', value: 'with a stunning night view and city lights' },
+      { label: '함박눈', value: 'heavy-snow' },
+      { label: '만개한 꽃', value: 'full-bloom' },
+      { label: '천둥번개', value: 'thunder-lightning' },
+      { label: '노을', value: 'sunset' },
+      { label: '강한 햇빛', value: 'strong-sunlight' },
+      { label: '단풍·은행나무', value: 'autumn-leaves' },
+      { label: '멋진 야경', value: 'night-view' },
     ]
   }
 ];
@@ -313,14 +476,14 @@ function LandmarkGallery({ onSelect }) {
         
         <button 
           onMouseDown={prevSlide} 
-          className="fixed left-2 sm:left-4 md:left-6 lg:left-8 xl:left-12 top-1/2 -translate-y-1/2 bg-white/90 dark:bg-gray-800/90 backdrop-blur-sm p-2 sm:p-3 rounded-full shadow-lg hover:bg-white dark:hover:bg-gray-800 hover:scale-110 transform transition-all duration-300 ease-in-out z-20" 
+          className="absolute left-2 sm:left-4 md:left-6 lg:left-8 xl:left-12 top-1/2 -translate-y-1/2 bg-white/90 dark:bg-gray-800/90 backdrop-blur-sm p-2 sm:p-3 rounded-full shadow-lg hover:bg-white dark:hover:bg-gray-800 hover:scale-110 transform transition-all duration-300 ease-in-out z-20" 
           aria-label="이전 슬라이드"
         >
           <ChevronLeft className="w-5 h-5 sm:w-6 sm:h-6 text-gray-700 dark:text-gray-300" />
         </button>
         <button 
           onMouseDown={nextSlide} 
-          className="fixed right-2 sm:right-4 md:right-6 lg:right-8 xl:right-12 top-1/2 -translate-y-1/2 bg-white/90 dark:bg-gray-800/90 backdrop-blur-sm p-2 sm:p-3 rounded-full shadow-lg hover:bg-white dark:hover:bg-gray-800 hover:scale-110 transform transition-all duration-300 ease-in-out z-20" 
+          className="absolute right-2 sm:right-4 md:right-6 lg:right-8 xl:right-12 top-1/2 -translate-y-1/2 bg-white/90 dark:bg-gray-800/90 backdrop-blur-sm p-2 sm:p-3 rounded-full shadow-lg hover:bg-white dark:hover:bg-gray-800 hover:scale-110 transform transition-all duration-300 ease-in-out z-20" 
           aria-label="다음 슬라이드"
         >
           <ChevronRight className="w-5 h-5 sm:w-6 sm:h-6 text-gray-700 dark:text-gray-300" />
@@ -463,12 +626,23 @@ function Editor({ landmark, onBack }) {
       
       const imagePart = { inlineData: { mimeType: 'image/jpeg', data: base64Image.split(',')[1] } };
       
-      let textPrompt = `Reimagine this landmark, '${landmark.title}', in a 3:4 portrait aspect ratio, strictly preserving its original architectural shape and structure.`;
+      let textPrompt = `CRITICAL: Reimagine this landmark, '${landmark.title}', in a 3:4 portrait aspect ratio. MANDATORY ARCHITECTURAL PRESERVATION: The building's exact architectural shape, structure, size, proportions, and all distinctive structural features MUST remain completely identical to the original. The landmark's original form is absolutely non-negotiable and must be 100% recognizable.`;
       
-      if (selectedCategory.id === 'photorealistic') {
-        textPrompt += `\nThe new image should be photorealistic, with the atmosphere of ${selectedStyle.value}.`;
+      if (selectedCategory.id === 'photorealistic' && photorealisticPrompts[selectedStyle.value]) {
+        const photoData = photorealisticPrompts[selectedStyle.value];
+        textPrompt += `\nApply the photorealistic visual treatment described: ${photoData.prompt} IMPORTANT: Only change lighting, weather, and atmospheric conditions. The building structure remains completely unchanged.`;
+      } else if (selectedCategory.id === 'artist' && artistPrompts[selectedStyle.value]) {
+        // 예술가 스타일의 경우 단일 예술 운동 기반 프롬프트 사용
+        const artistData = artistPrompts[selectedStyle.value];
+        textPrompt += `\nApply the artistic visual treatment described: ${artistData.prompt} CRITICAL CONSTRAINT: Only modify colors, textures, brushwork patterns, and surface visual effects. The building's physical form, dimensions, and architectural structure remain completely unchanged and identical to the original.`;
+      } else if (selectedCategory.id === 'animation' && animationPrompts[selectedStyle.value]) {
+        const animationData = animationPrompts[selectedStyle.value];
+        textPrompt += `\nApply the animation visual treatment described: ${animationData.prompt} CRITICAL CONSTRAINT: Only modify colors, textures, animation style, and surface visual effects. The building's physical form, dimensions, and architectural structure remain completely unchanged and identical to the original.`;
+      } else if (selectedCategory.id === 'illust' && illustrationPrompts[selectedStyle.value]) {
+        const illustData = illustrationPrompts[selectedStyle.value];
+        textPrompt += `\nApply the illustration visual treatment described: ${illustData.prompt} CRITICAL CONSTRAINT: Only modify colors, textures, artistic medium effects, and surface visual effects. The building's physical form, dimensions, and architectural structure remain completely unchanged and identical to the original.`;
       } else {
-        textPrompt += `\nThe new image should be in the art style of ${selectedStyle.value}.`;
+        textPrompt += `\nApply the artistic style of ${selectedStyle.value}. MANDATORY: Only change visual surface treatment (colors, textures, artistic effects) while keeping the exact same architectural form and structure as the original building.`;
       }
 
       if (landmark.id === 'seoul-ring') {
@@ -525,16 +699,21 @@ function Editor({ landmark, onBack }) {
   };
 
   return (
-    <div className="h-full flex flex-col">
-      <button onClick={onBack} className="flex items-center gap-2 text-gray-500 hover:text-black dark:text-gray-400 dark:hover:text-white transition-colors mb-4 -mt-2 flex-shrink-0 font-bold"><ChevronLeft />뒤로가기</button>
-      <div className="flex-1 grid grid-cols-1 lg:grid-cols-[0.4fr,0.6fr] gap-4 lg:gap-14 min-h-0">
-        <div className="flex flex-col min-h-0">
-            <div className="pt-6">
-                <h2 className="text-xl md:text-2xl font-bold mb-1 flex-shrink-0">{landmark.title}</h2>
-                <p className="text-gray-600 dark:text-gray-400 mb-3 text-xs md:text-sm flex-shrink-0 max-h-10 overflow-hidden">{landmark.description}</p>
+    <div className="h-full flex flex-col overflow-hidden">
+      <div className="flex-shrink-0 px-4 pt-2">
+        <button onClick={onBack} className="flex items-center gap-2 text-gray-500 hover:text-black dark:text-gray-400 dark:hover:text-white transition-colors mb-4 flex-shrink-0 font-bold">
+          <ChevronLeft />뒤로가기
+        </button>
+      </div>
+      <div className="flex-1 overflow-y-auto">
+        <div className="grid grid-cols-1 lg:grid-cols-[0.4fr,0.6fr] gap-4 lg:gap-14 px-4 pb-4 h-full">
+        <div className="flex flex-col h-full">
+            <div className="flex-shrink-0 mb-4">
+                <h2 className="text-xl md:text-2xl font-bold mb-1">{landmark.title}</h2>
+                <p className="text-gray-600 dark:text-gray-400 text-xs md:text-sm line-clamp-2">{landmark.description}</p>
             </div>
-            <div className="relative flex-1 min-h-0">
-                <div className="h-full rounded-2xl overflow-hidden bg-gray-50 dark:bg-gray-800 flex items-center justify-center">
+            <div className="relative flex-1">
+                <div className="absolute inset-0 rounded-2xl overflow-hidden bg-gray-50 dark:bg-gray-800 flex items-center justify-center">
                     {isLoading ? (
                         <div className="text-center"><Sparkles className="animate-spin h-12 w-12 text-gray-500 mx-auto" /><p className="mt-4 text-gray-600 dark:text-gray-400">{loadingStep}</p></div>
                     ) : error ? (
@@ -551,7 +730,12 @@ function Editor({ landmark, onBack }) {
                             }
                           })()} 
                           alt="Generated Landmark" 
-                          className="w-full h-full object-cover transition-opacity duration-500" 
+                          className={`transition-opacity duration-500 ${
+                            isBaseImage 
+                              ? 'w-full h-full object-cover' // 원본 이미지: 컨테이너에 맞게 확대
+                              : 'max-w-full max-h-full w-auto h-auto object-contain' // AI 생성 이미지: 화면 영역 내 제한
+                          }`}
+                          style={isBaseImage ? {} : { maxHeight: '100%', maxWidth: '100%' }}
                           onError={(e) => { e.target.onerror = null; e.target.src=`https://placehold.co/900x1200/000000/FFFFFF?text=Error+Loading+Image`; }}
                         />
                     )}
@@ -565,9 +749,8 @@ function Editor({ landmark, onBack }) {
                 )}
             </div>
         </div>
-        <div className="flex flex-col min-h-0">
-          <div className="flex-shrink-0" style={{ height: '60px' }}></div>
-          <div className="flex-1 space-y-6 overflow-y-auto">
+        <div className="flex flex-col">
+          <div className="space-y-6">
             {/* 1단계: 카테고리 선택 (탭) */}
             <div>
               <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-1">1단계: 스타일 카테고리 선택</h3>
@@ -613,9 +796,17 @@ function Editor({ landmark, onBack }) {
             )}
           </div>
 
-          <div className="py-4 flex-shrink-0">
-            <button onClick={handleGenerate} disabled={isLoading || !selectedStyle} className="w-full bg-blue-600 hover:bg-blue-500 disabled:bg-gray-400 dark:disabled:bg-gray-600 disabled:cursor-not-allowed text-white font-bold py-3 px-4 rounded-xl flex items-center justify-center gap-2 transition-all duration-300 transform hover:scale-105"><Sparkles />{isLoading ? '생성 중...' : '나만의 서울 미래상 생성하기'}</button>
+          <div className="py-4 mt-auto">
+            <button 
+              onClick={handleGenerate} 
+              disabled={isLoading || !selectedStyle} 
+              className="w-full bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 disabled:from-gray-400 disabled:to-gray-400 dark:disabled:from-gray-600 dark:disabled:to-gray-600 disabled:cursor-not-allowed text-white font-bold py-4 px-6 rounded-xl flex items-center justify-center gap-3 transition-all duration-300 transform hover:scale-[1.02] shadow-lg hover:shadow-xl"
+            >
+              <Sparkles className="w-5 h-5" />
+              <span className="text-lg">{isLoading ? '생성 중...' : '나만의 서울 미래상 생성하기'}</span>
+            </button>
           </div>
+        </div>
         </div>
       </div>
       {showQrModal && <QrModal qrCodeUrl={qrCodeUrl} qrError={qrError} onClose={() => setShowQrModal(false)} />}
