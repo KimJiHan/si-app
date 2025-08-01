@@ -613,7 +613,7 @@ function Editor({ landmark, onBack }) {
       return;
     }
 
-    const apiKey = "";
+    const apiKey = "AIzaSyDtcPmRhxJplpOGYRLEH0sBgKcBkWFBhzs";
     
     setIsLoading(true);
     setError(null);
