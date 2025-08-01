@@ -92,7 +92,7 @@ const artistPrompts = {
   'schiele': {
     name: '에곤 쉴레',
     movement: '표현주의 (Expressionism)',
-    prompt: 'A masterpiece of **Expressionism**, depicting a twisted, gnarled tree or a stark cityscape with raw, angular lines and an intense, nervous energy that conveys a deep psychological mood, **in the style of Egon Schiele**. Highly detailed.'
+    prompt: 'A masterpiece of **Expressionism**, depicting a twisted, gnarled features or a stark cityscape with raw, angular lines and an intense, nervous energy that conveys a deep psychological mood, **in the style of Egon Schiele**. Highly detailed.'
   },
   'warhol': {
     name: '앤디 워홀',
