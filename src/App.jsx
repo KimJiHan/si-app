@@ -17,6 +17,7 @@ const getImageUrl = (path) => {
   if (path.startsWith('http')) {
     return path; // 외부 URL은 그대로 반환
   }
+  // Vite 환경에서는 항상 BASE_URL 사용
   const baseUrl = import.meta.env.BASE_URL || '/';
   const cleanPath = path.startsWith('/') ? path.slice(1) : path;
   return `${baseUrl}${cleanPath}`;
@@ -24,46 +25,52 @@ const getImageUrl = (path) => {
 
 const landmarks = [
   { 
-    id: 'nodeul-island', 
-    title: '노들 글로벌 예술섬', 
-    description: '한강의 중심 노들섬을 자연과 예술, 독특한 경험이 가득한 공간으로 재탄생시키는 프로젝트입니다.', 
-    imageUrl: 'image/noddle global art island/noddle global art island2.jpg',
-    editorImageUrl: 'https://raw.githubusercontent.com/KimJiHan/test_workbench/main/%E1%84%89%E1%85%A5%E1%86%AF%E1%84%80%E1%85%A8%E1%84%89%E1%85%A5%E1%86%AF%E1%84%86%E1%85%A7%E1%86%BC%E1%84%89%E1%85%A5_%E1%84%80%E1%85%A9%E1%86%BC%E1%84%8C%E1%85%AE%E1%86%BC%E1%84%87%E1%85%AE(%E1%84%83%E1%85%A9%E1%86%BC%E1%84%8E%E1%85%B3%E1%86%A8).jpg'
-  },
-  { 
-    id: 'ddp-seoul-light', 
-    title: 'DDP 서울라이트', 
-    description: '동대문디자인플라자(DDP)의 외벽을 거대한 캔버스 삼아 펼쳐지는 화려한 빛의 축제입니다.', 
-    imageUrl: 'image/Dongdaemun DDP/Dongdaemun DDP2.jpg',
-    editorImageUrl: 'https://raw.githubusercontent.com/KimJiHan/test_workbench/main/ebdb20d8eea4d.jpg'
-  },
-  { 
     id: 'seoul-ring', 
-    title: '서울링', 
+    title: '미래 서울<br/>서울링', 
+    editorTitle: '서울링',
     description: '상암동 하늘공원에 조성될 세계 최대 규모의 대관람차입니다. 서울의 전경을 한눈에 담습니다.', 
-    imageUrl: 'image/seoulring/soeulring1.jpg',
-    editorImageUrl: 'https://raw.githubusercontent.com/KimJiHan/test_workbench/main/%E1%84%90%E1%85%AE%E1%84%89%E1%85%B5%E1%84%83%E1%85%A9(1).jpg'
+    imageUrl: 'image/page1/seoul-ring.png',
+    editorImageUrl: 'image/page2/seoul-ring.jpg'
   },
   { 
-    id: 'seoul-arena', 
-    title: '서울 아레나', 
-    description: '창동역 인근에 건립되는 국내 최초의 아레나급 음악 전문 공연장입니다. K-POP의 중심지입니다.', 
-    imageUrl: 'image/seoul arena/seoul arena2.jpg',
-    editorImageUrl: 'https://raw.githubusercontent.com/KimJiHan/test_workbench/main/%E1%84%89%E1%85%A5%E1%84%8B%E1%85%AE%E1%86%AF%E1%84%8B%E1%85%A1%E1%84%85%E1%85%A6%E1%84%82%E1%85%A12.jpg'
+    id: 'nodeul-island', 
+    title: '미래 서울<br/>노들 글로벌 예술섬', 
+    editorTitle: '노들 글로벌 예술섬',
+    description: '한강의 중심 노들섬을 자연과 예술, 독특한 경험이 가득한 공간으로 재탄생시키는 프로젝트입니다.', 
+    imageUrl: 'image/page1/nodeul-arts-island.png',
+    editorImageUrl: 'image/page2/nodeul-island.jpg'
   },
   { 
-    id: 'digital-bio-city', 
-    title: '창동상계 디지털 바이오 시티', 
-    description: '창동·상계 일대를 바이오·의료 및 디지털 산업의 중심으로 육성하는 프로젝트입니다.', 
-    imageUrl: 'https://news.seoul.go.kr/citybuild/files/2024/03/65f10f43813c97.66981881.jpg',
-    editorImageUrl: 'https://news.seoul.go.kr/citybuild/files/2024/03/65f10f43813c97.66981881.jpg'
+    id: 'yongsan-ibd', 
+    title: '미래 서울<br/>용산국제업무지구', 
+    editorTitle: '용산국제업무지구',
+    description: '용산역 일대를 국제적 비즈니스 허브로 조성하는 대규모 복합개발 프로젝트입니다.', 
+    imageUrl: 'image/page1/yongsan-business-district.png',
+    editorImageUrl: 'image/page2/yongsan-ibd.png'
   },
   { 
-    id: 'han-river-bus', 
-    title: '한강 리버버스', 
-    description: '친환경 대중교통 수단으로 한강을 가로지르는 수상버스입니다. 주요 거점을 연결합니다.', 
-    imageUrl: 'image/hanriverbus/hanriverbus1.jpg',
-    editorImageUrl: 'image/hanriverbus/hanriverbus5.png'
+    id: 'ddp', 
+    title: '서울 랜드마크<br/>동대문디자인플라자', 
+    editorTitle: '동대문디자인플라자',
+    description: '동대문의 랜드마크로, 독특한 곡선 디자인이 돋보이는 복합문화공간입니다.', 
+    imageUrl: 'image/page1/dongdaemun-design-plaza.png',
+    editorImageUrl: 'image/page2/ddp.jpg'
+  },
+  { 
+    id: 'namsan-tower', 
+    title: '서울 랜드마크<br/>남산서울타워', 
+    editorTitle: '남산서울타워',
+    description: '남산 정상에 위치한 서울의 상징적 랜드마크로, 서울 전경을 한눈에 볼 수 있습니다.', 
+    imageUrl: 'image/page1/namsan-tower.png',
+    editorImageUrl: 'image/page2/namsan-tower.jpg'
+  },
+  { 
+    id: 'bukchon-hanok', 
+    title: '서울 랜드마크<br/>북촌한옥마을', 
+    editorTitle: '북촌한옥마을',
+    description: '조선시대 전통 가옥들이 보존된 역사적 문화지구로, 한국의 전통미를 간직하고 있습니다.', 
+    imageUrl: 'image/page1/bukchon-hanok.png',
+    editorImageUrl: 'image/page2/bukchon-hanok.jpg'
   }
 ];
 
@@ -291,22 +298,62 @@ const styleCategories = [
 
 // === Helper Functions ===
 async function toBase64(url) {
-  let fetchUrl;
-  if (url.startsWith('/')) {
-    fetchUrl = url;
-  } else {
-    fetchUrl = `https://images.weserv.nl/?url=${encodeURIComponent(url)}`;
-  }
-  const response = await fetch(fetchUrl);
-  if (!response.ok) {
-    throw new Error(`이미지 로드 오류: ${response.status} ${response.statusText} (URL: ${fetchUrl})`);
-  }
-  const blob = await response.blob();
   return new Promise((resolve, reject) => {
-    const reader = new FileReader();
-    reader.onloadend = () => resolve(reader.result);
-    reader.onerror = reject;
-    reader.readAsDataURL(blob);
+    const img = new Image();
+    img.crossOrigin = "anonymous";
+    
+    img.onload = () => {
+      try {
+        // Canvas를 이용해 이미지 크기 조정 및 JPEG 변환
+        const canvas = document.createElement('canvas');
+        const ctx = canvas.getContext('2d');
+        
+        // 최대 크기 제한 (Gemini API 권장)
+        const MAX_WIDTH = 1024;
+        const MAX_HEIGHT = 1024;
+        
+        let width = img.width;
+        let height = img.height;
+        
+        // 비율 유지하면서 크기 조정
+        if (width > MAX_WIDTH || height > MAX_HEIGHT) {
+          const ratio = Math.min(MAX_WIDTH / width, MAX_HEIGHT / height);
+          width = Math.round(width * ratio);
+          height = Math.round(height * ratio);
+        }
+        
+        canvas.width = width;
+        canvas.height = height;
+        
+        // 흰색 배경 그리기 (투명 배경 제거)
+        ctx.fillStyle = '#FFFFFF';
+        ctx.fillRect(0, 0, width, height);
+        
+        // 이미지 그리기
+        ctx.drawImage(img, 0, 0, width, height);
+        
+        // JPEG로 변환 (품질 0.85)
+        const dataUrl = canvas.toDataURL('image/jpeg', 0.85);
+        resolve(dataUrl);
+      } catch (err) {
+        reject(new Error(`이미지 변환 오류: ${err.message}`));
+      }
+    };
+    
+    img.onerror = () => {
+      reject(new Error(`이미지 로드 실패: ${url}`));
+    };
+    
+    // 이미지 URL 설정
+    if (url.startsWith('data:')) {
+      img.src = url;
+    } else if (url.startsWith('http')) {
+      // 외부 URL인 경우 Weserv 프록시 사용 (크기 제한 포함)
+      img.src = `https://images.weserv.nl/?url=${encodeURIComponent(url)}&w=1024&h=1024&fit=inside&output=jpg`;
+    } else {
+      // 로컬 이미지인 경우
+      img.src = url;
+    }
   });
 }
 
@@ -348,11 +395,11 @@ export default function App() {
   const handleBackToGallery = () => { setSelectedLandmark(null); flushSync(() => setView('gallery')); };
 
   return (
-    <div className="bg-white dark:bg-black text-gray-900 dark:text-gray-100 h-screen font-sans transition-colors duration-500 flex flex-col overflow-hidden pt-12 sm:pt-16">
-      <div className="flex-1 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full flex flex-col">
+    <div className="bg-white dark:bg-black text-gray-900 dark:text-gray-100 h-screen font-sans transition-colors duration-500 flex flex-col overflow-hidden pt-4 sm:pt-6">
+      <div className="flex-1 w-full flex flex-col px-1 sm:px-2">
         {view === 'gallery' ? <LandmarkGallery onSelect={handleSelectLandmark} /> : <Editor landmark={selectedLandmark} onBack={handleBackToGallery} />}
       </div>
-      <footer className="text-center pt-8 pb-4 text-gray-500 dark:text-gray-400 text-xs flex-shrink-0"><p>Copyright 2025 The Seoul Institute. All Rights Reserved.</p></footer>
+      <footer className="text-center pt-2 pb-2 text-gray-500 dark:text-gray-400 text-xs flex-shrink-0"><p>Copyright 2025 The Seoul Institute. All Rights Reserved.</p></footer>
       <ThemeToggler theme={theme} toggleTheme={toggleTheme} />
     </div>
   );
@@ -367,127 +414,29 @@ function ThemeToggler({ theme, toggleTheme }) {
 }
 
 function LandmarkGallery({ onSelect }) {
-  const [currentIndex, setCurrentIndex] = useState(0);
-  const scrollContainerRef = useRef(null);
-  const autoPlayRef = useRef(null);
-
-  const handleScroll = useCallback(() => {
-    if (scrollContainerRef.current) {
-      const container = scrollContainerRef.current;
-      const cards = container.children;
-      if (cards.length === 0) return;
-      const scrollLeft = container.scrollLeft;
-      const cardWidth = cards[0].offsetWidth;
-      const gap = 24; // space-x-6
-      const newIndex = Math.round(scrollLeft / (cardWidth + gap));
-      if (newIndex !== currentIndex) {
-        setCurrentIndex(newIndex);
-      }
-    }
-  }, [currentIndex]);
-
-  useEffect(() => {
-    const container = scrollContainerRef.current;
-    if (container) {
-      container.addEventListener('scroll', handleScroll, { passive: true });
-      return () => container.removeEventListener('scroll', handleScroll);
-    }
-  }, [handleScroll]);
-
-  const scrollToIndex = (index) => {
-    if (scrollContainerRef.current) {
-      const container = scrollContainerRef.current;
-      const cards = container.children;
-      if (cards[index]) {
-        const cardLeft = cards[index].offsetLeft;
-        const containerWidth = container.clientWidth;
-        const cardWidth = cards[index].offsetWidth;
-        container.scrollTo({
-          left: cardLeft - (containerWidth - cardWidth) / 2,
-          behavior: 'smooth'
-        });
-        setCurrentIndex(index);
-      }
-    }
-  };
-
-  const startAutoPlay = useCallback(() => {
-    if (autoPlayRef.current) clearInterval(autoPlayRef.current);
-    autoPlayRef.current = setInterval(() => {
-      setCurrentIndex(prevIndex => {
-        const nextIndex = (prevIndex + 1) % landmarks.length;
-        scrollToIndex(nextIndex);
-        return nextIndex;
-      });
-    }, 5000);
-  }, []);
-
-  const stopAutoPlay = useCallback(() => {
-    if (autoPlayRef.current) clearInterval(autoPlayRef.current);
-  }, []);
-
-  useEffect(() => {
-    startAutoPlay();
-    return () => stopAutoPlay();
-  }, [startAutoPlay, stopAutoPlay]);
-
-  const nextSlide = (e) => {
-    e.preventDefault();
-    e.stopPropagation();
-    const nextIndex = (currentIndex + 1) % landmarks.length;
-    scrollToIndex(nextIndex);
-    stopAutoPlay();
-    setTimeout(startAutoPlay, 5000);
-  };
-
-  const prevSlide = (e) => {
-    e.preventDefault();
-    e.stopPropagation();
-    const prevIndex = currentIndex === 0 ? landmarks.length - 1 : currentIndex - 1;
-    scrollToIndex(prevIndex);
-    stopAutoPlay();
-    setTimeout(startAutoPlay, 5000);
-  };
 
   return (
     <div className="flex flex-col h-full">
-      <header className="py-4 md:py-6 text-center flex-shrink-0">
-        <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold tracking-tight bg-clip-text text-transparent bg-gradient-to-r from-gray-900 to-gray-600 dark:from-gray-100 dark:to-gray-400">서울의 미래를 그리다</h1>
-        <p className="mt-3 max-w-2xl mx-auto text-sm sm:text-base md:text-lg text-gray-600 dark:text-gray-400">
-          서울의 미래공간을 나만의 스타일로 그려보세요. 서울 미래 공간을 선택 후, 날씨, 도시배경, 그림 스타일을 나의 취향에 맞게 선택하면 AI가 당신만의 서울을 창조합니다.<br/>
-          완성된 그림은 QR로 소장 가능합니다.
+      <header className="py-1 md:py-2 text-center flex-shrink-0">
+        <div className="h-2 sm:h-4"></div>
+        <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold tracking-tight bg-clip-text text-transparent bg-gradient-to-r from-gray-900 to-gray-600 dark:from-gray-100 dark:to-gray-400">나만의 스타일로 서울을 그려보세요!</h1>
+        <br/>
+        <p className="text-xs sm:text-sm md:text-base text-gray-600 dark:text-gray-400 leading-tight">
+          미래 서울의 모습과 현재 서울의 명소를 나만의 스타일로 그려보세요.<br/>
+          원하는 장소를 선택 후 그림 스타일을 선택하면 AI가 당신만의 서울을 창조합니다.<br/>
+          완성된 그림은 QR로 소장 가능합니다.<br/><br/>
+          <strong>내가 그리고 싶은 서울의 모습을 선택해주세요.</strong>
         </p>
       </header>
       
-      <div className="flex-1 relative flex flex-col min-h-0">
-        <div 
-          ref={scrollContainerRef}
-          className="flex overflow-x-auto space-x-6 pb-4 hide-scrollbar flex-1"
-          style={{ scrollSnapType: 'x mandatory', scrollBehavior: 'smooth' }}
-          onMouseEnter={stopAutoPlay}
-          onMouseLeave={startAutoPlay}
-        >
+      <div className="flex-1 flex flex-col py-6 sm:py-8">
+        <div className="w-full h-[90%] grid grid-cols-6 gap-0.5 sm:gap-1">
           {landmarks.map((landmark) => (
-            <div key={landmark.id} className="flex-shrink-0 w-[80vw] sm:w-[65vw] max-w-sm h-full" style={{ scrollSnapAlign: 'center' }}>
+            <div key={landmark.id} className="w-full h-full">
               <MediaCard landmark={landmark} onSelect={onSelect} />
             </div>
           ))}
         </div>
-        
-        <button 
-          onMouseDown={prevSlide} 
-          className="absolute left-2 sm:left-4 md:left-6 lg:left-8 xl:left-12 top-1/2 -translate-y-1/2 bg-white/90 dark:bg-gray-800/90 backdrop-blur-sm p-2 sm:p-3 rounded-full shadow-lg hover:bg-white dark:hover:bg-gray-800 hover:scale-110 transform transition-all duration-300 ease-in-out z-20" 
-          aria-label="이전 슬라이드"
-        >
-          <ChevronLeft className="w-5 h-5 sm:w-6 sm:h-6 text-gray-700 dark:text-gray-300" />
-        </button>
-        <button 
-          onMouseDown={nextSlide} 
-          className="absolute right-2 sm:right-4 md:right-6 lg:right-8 xl:right-12 top-1/2 -translate-y-1/2 bg-white/90 dark:bg-gray-800/90 backdrop-blur-sm p-2 sm:p-3 rounded-full shadow-lg hover:bg-white dark:hover:bg-gray-800 hover:scale-110 transform transition-all duration-300 ease-in-out z-20" 
-          aria-label="다음 슬라이드"
-        >
-          <ChevronRight className="w-5 h-5 sm:w-6 sm:h-6 text-gray-700 dark:text-gray-300" />
-        </button>
       </div>
     </div>
   );
@@ -502,13 +451,13 @@ function MediaCard({ landmark, onSelect }) {
     // 외부 이미지는 Weserv를 통해 최적화
     optimizedImageUrl = `https://images.weserv.nl/?url=${encodeURIComponent(landmark.imageUrl)}&w=600&h=800&fit=cover&q=90&output=webp`;
   } else {
-    // 로컬 이미지는 직접 경로 사용
-    optimizedImageUrl = getImageUrl(landmark.imageUrl);
+    // 로컬 이미지는 직접 경로 사용 (캐시 버스팅용 timestamp 추가)
+    optimizedImageUrl = getImageUrl(landmark.imageUrl) + `?t=${Date.now()}`;
   }
 
   return (
     <div 
-      className="h-full rounded-3xl overflow-hidden cursor-pointer group relative flex flex-col justify-between p-6 md:p-8"
+      className="h-full rounded-2xl overflow-hidden cursor-pointer group relative flex flex-col justify-between p-3 sm:p-4"
       onClick={() => onSelect(landmark)}
     >
       {!isLoaded && <div className="absolute inset-0 bg-gray-200 dark:bg-gray-800 animate-pulse"></div>}
@@ -521,12 +470,12 @@ function MediaCard({ landmark, onSelect }) {
       <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-black/40" />
       
       <div className="relative text-white">
-        <h2 className="text-xl md:text-2xl font-bold drop-shadow-lg">{landmark.title}</h2>
+        <h2 className="text-sm md:text-base font-bold drop-shadow-lg leading-tight" dangerouslySetInnerHTML={{__html: landmark.title}}></h2>
       </div>
       
       <div className="relative flex items-end justify-between text-white">
-        <p className="text-sm opacity-90 w-4/5 drop-shadow-md">{landmark.description}</p>
-        <PlusCircle className="w-8 h-8 opacity-80 group-hover:opacity-100 group-hover:scale-110 transition-all duration-300 flex-shrink-0 drop-shadow-lg" />
+        <p className="text-xs opacity-90 w-4/5 drop-shadow-md line-clamp-3">{landmark.description}</p>
+        <PlusCircle className="w-6 h-6 opacity-80 group-hover:opacity-100 group-hover:scale-110 transition-all duration-300 flex-shrink-0 drop-shadow-lg" />
       </div>
     </div>
   );
@@ -537,9 +486,19 @@ function Editor({ landmark, onBack }) {
   const [selectedCategory, setSelectedCategory] = useState(null);
   const [selectedStyle, setSelectedStyle] = useState(null);
   
-  const editorReferenceImage = landmark.editorImageUrl || (
-    landmark.imageUrl.startsWith('http') ? landmark.imageUrl : getImageUrl(landmark.imageUrl)
-  );
+  // 에디터용 이미지 URL 결정
+  const getEditorImageUrl = () => {
+    const imageUrl = landmark.editorImageUrl || landmark.imageUrl;
+    if (!imageUrl) return '';
+    
+    if (imageUrl.startsWith('http')) {
+      return imageUrl;
+    }
+    // 로컬 이미지는 BASE_URL 포함하여 처리
+    return getImageUrl(imageUrl);
+  };
+  
+  const editorReferenceImage = getEditorImageUrl();
   const [generatedImage, setGeneratedImage] = useState(editorReferenceImage);
   const [isBaseImage, setIsBaseImage] = useState(true);
   const [isLoading, setIsLoading] = useState(false);
@@ -626,7 +585,7 @@ function Editor({ landmark, onBack }) {
       
       const imagePart = { inlineData: { mimeType: 'image/jpeg', data: base64Image.split(',')[1] } };
       
-      let textPrompt = `CRITICAL: Reimagine this landmark, '${landmark.title}', in a 3:4 portrait aspect ratio. MANDATORY ARCHITECTURAL PRESERVATION: The building's exact architectural shape, structure, size, proportions, and all distinctive structural features MUST remain completely identical to the original. The landmark's original form is absolutely non-negotiable and must be 100% recognizable.`;
+      let textPrompt = `CRITICAL: Reimagine this landmark, '${landmark.editorTitle || landmark.title}', in a 3:4 portrait aspect ratio. MANDATORY ARCHITECTURAL PRESERVATION: The building's exact architectural shape, structure, size, proportions, and all distinctive structural features MUST remain completely identical to the original. The landmark's original form is absolutely non-negotiable and must be 100% recognizable.`;
       
       if (selectedCategory.id === 'photorealistic' && photorealisticPrompts[selectedStyle.value]) {
         const photoData = photorealisticPrompts[selectedStyle.value];
@@ -664,7 +623,16 @@ function Editor({ landmark, onBack }) {
       
       if (!geminiRes.ok) {
         const errorData = await geminiRes.json();
-        throw new Error(`Gemini API Error: ${errorData.error.message}`);
+        console.error('Gemini API Error:', errorData);
+        
+        // 더 구체적인 에러 메시지 처리
+        if (errorData.error?.message?.includes('Unable to process input image')) {
+          throw new Error('이미지 처리 실패: 이미지 형식이나 크기를 확인해주세요.');
+        } else if (errorData.error?.message?.includes('API key')) {
+          throw new Error('API 키가 유효하지 않습니다.');
+        } else {
+          throw new Error(`Gemini API Error: ${errorData.error?.message || '알 수 없는 오류'}`);
+        }
       }
       
       const geminiResult = await geminiRes.json();
@@ -682,11 +650,14 @@ function Editor({ landmark, onBack }) {
       console.error("Image generation error:", err);
       if (err.message.includes("overloaded")) {
          setError("AI 모델이 현재 과부하 상태입니다. 잠시 후 다시 시도해주세요.");
-      }
-      else if (err.message.includes("프록시") || err.message.includes("이미지 로드 오류")) {
-         setError(`이미지 처리 중 오류가 발생했습니다: ${err.message}`);
+      } else if (err.message.includes("이미지 처리 실패")) {
+         setError("이미지 처리에 실패했습니다. 다른 이미지를 선택하거나 잠시 후 다시 시도해주세요.");
+      } else if (err.message.includes("이미지 로드 실패") || err.message.includes("이미지 변환 오류")) {
+         setError("참조 이미지를 불러올 수 없습니다. 페이지를 새로고침하고 다시 시도해주세요.");
+      } else if (err.message.includes("API 키가 유효하지 않습니다")) {
+         setError("AI 서비스 인증에 실패했습니다. 관리자에게 문의해주세요.");
       } else if (err.message.includes("API")) {
-         setError(`AI 모델 호출 중 오류가 발생했습니다. API 키를 확인해주세요: ${err.message}`);
+         setError("AI 서비스 연결에 실패했습니다. 잠시 후 다시 시도해주세요.");
       } else {
          setError(`오류가 발생했습니다: ${err.message}`);
       }
@@ -709,7 +680,7 @@ function Editor({ landmark, onBack }) {
         <div className="grid grid-cols-1 lg:grid-cols-[0.4fr,0.6fr] gap-4 lg:gap-14 px-4 pb-4 h-full">
         <div className="flex flex-col h-full">
             <div className="flex-shrink-0 mb-4">
-                <h2 className="text-xl md:text-2xl font-bold mb-1">{landmark.title}</h2>
+                <h2 className="text-xl md:text-2xl font-bold mb-1">{landmark.editorTitle || landmark.title}</h2>
                 <p className="text-gray-600 dark:text-gray-400 text-xs md:text-sm line-clamp-2">{landmark.description}</p>
             </div>
             <div className="relative flex-1">
@@ -718,17 +689,13 @@ function Editor({ landmark, onBack }) {
                         <div className="text-center"><Sparkles className="animate-spin h-12 w-12 text-gray-500 mx-auto" /><p className="mt-4 text-gray-600 dark:text-gray-400">{loadingStep}</p></div>
                     ) : error ? (
                         <div className="p-4 text-center"><p className="text-red-500 dark:text-red-400">오류 발생:</p><p className="text-sm text-red-600 dark:text-red-500 mt-2">{error}</p></div>
-                    ) : (
+                    ) : generatedImage ? (
                         <img 
-                          src={(() => {
-                            if (generatedImage.startsWith('data:')) {
-                              return generatedImage; // Base64 이미지는 그대로
-                            } else if (generatedImage.startsWith('http')) {
-                              return isBaseImage ? `https://images.weserv.nl/?url=${encodeURIComponent(generatedImage)}` : generatedImage;
-                            } else {
-                              return getImageUrl(generatedImage); // 로컬 이미지
-                            }
-                          })()} 
+                          src={generatedImage.startsWith('data:') ? generatedImage : 
+                               generatedImage.startsWith('http') ? 
+                                 (isBaseImage ? `https://images.weserv.nl/?url=${encodeURIComponent(generatedImage)}` : generatedImage) :
+                                 generatedImage
+                          } 
                           alt="Generated Landmark" 
                           className={`transition-opacity duration-500 ${
                             isBaseImage 
@@ -736,8 +703,15 @@ function Editor({ landmark, onBack }) {
                               : 'max-w-full max-h-full w-auto h-auto object-contain' // AI 생성 이미지: 화면 영역 내 제한
                           }`}
                           style={isBaseImage ? {} : { maxHeight: '100%', maxWidth: '100%' }}
-                          onError={(e) => { e.target.onerror = null; e.target.src=`https://placehold.co/900x1200/000000/FFFFFF?text=Error+Loading+Image`; }}
+                          onError={(e) => { 
+                            e.target.onerror = null; 
+                            e.target.src='https://placehold.co/900x1200/000000/FFFFFF?text=Error+Loading+Image'; 
+                          }}
                         />
+                    ) : (
+                        <div className="text-center">
+                          <p className="text-gray-500">이미지를 불러올 수 없습니다.</p>
+                        </div>
                     )}
                 </div>
                 {!isBaseImage && !isLoading && !error && (
