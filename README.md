@@ -1,144 +1,174 @@
-# 서울의 미래를 그리다 (Future Seoul App)
+# Future Seoul App - AI 이미지 생성 애플리케이션
 
-서울연구원에서 개발한 인터랙티브 AI 이미지 생성 웹 애플리케이션입니다. 사용자가 서울의 미래 랜드마크를 선택하고, 다양한 옵션을 조합하여 AI가 나만의 서울 미래상을 창조할 수 있습니다.
+<p align="center">
+  <img src="https://img.shields.io/badge/React-19.1.0-61DAFB?style=flat-square&logo=react&logoColor=white" alt="React">
+  <img src="https://img.shields.io/badge/Vite-7.0.4-646CFF?style=flat-square&logo=vite&logoColor=white" alt="Vite">
+  <img src="https://img.shields.io/badge/Tailwind_CSS-3.4.17-06B6D4?style=flat-square&logo=tailwindcss&logoColor=white" alt="Tailwind CSS">
+  <img src="https://img.shields.io/badge/Google_Gemini-2.0-4285F4?style=flat-square&logo=google&logoColor=white" alt="Google Gemini">
+</p>
 
-**전략실_광복80주년 전시 지원**
+서울연구원의 서울 미래상을 다양한 예술 스타일로 AI가 재해석하여 생성하는 인터랙티브 웹 애플리케이션입니다. 사용자는 서울의 주요 랜드마크를 선택하고 원하는 예술 스타일을 적용하여 개인만의 서울 미래상을 창조할 수 있습니다.
 
-## 📋 프로젝트 개요
+🔗 **라이브 데모**: [https://kimjihan.github.io/si-app/](https://kimjihan.github.io/si-app/)
 
-**서울의 미래를 그리다**는 React 기반의 웹 애플리케이션으로, Google Gemini AI 모델을 활용하여 서울의 미래 공간을 개인의 취향에 맞게 재해석한 이미지를 생성합니다. 생성된 이미지는 QR 코드로 저장하고 공유할 수 있습니다.
+## ✨ 주요 기능
 
-### 주요 기능
+### 🏛️ 서울 랜드마크 갤러리
+- **미래 서울**: 서울링, 노들 글로벌 예술섬, 용산국제업무지구
+- **서울 랜드마크**: 동대문디자인플라자, 남산서울타워, 북촌한옥마을
 
-- 🏗️ **6개 서울 미래 랜드마크** 갤러리 탐색
-- 🎨 **AI 이미지 생성**: Gemini 2.0 Flash를 활용한 실시간 이미지 편집
-- ⚙️ **2단계 스타일 선택**: 
-  - 1단계: 예술가, 애니메이션, 일러스트, 실사풍 카테고리 선택
-  - 2단계: 각 카테고리별 세부 스타일 선택
-- 📱 **QR 코드 생성**: 완성된 이미지를 QR 코드로 저장 및 공유
-- 🌓 **다크/라이트 모드** 지원
-- 📱 **반응형 디자인**: 모바일부터 데스크톱까지 완벽 지원
-- 🎯 **자동 슬라이드**: 5초마다 자동으로 다음 랜드마크로 이동
-- 🖼️ **전체 화면 최적화**: 스크롤 없는 풀스크린 레이아웃
+### 🎨 AI 스타일 변환
+- **아티스트 스타일** (10종): 반 고흐, 모네, 피카소, 클림트, 에곤 쉴레, 앤디 워홀, 쿠사마 야요이, 김홍도, 정선, 신윤복
+- **자연 스타일** (3종): 벚꽃이 흩날리는 봄, 화려한 가을 단풍, 멋진 야경
+- **애니메이션 스타일** (5종): 스튜디오 지브리, 픽사, 신카이 마코토, 디즈니, 드래곤볼
 
-### 포함된 서울 미래 랜드마크
+### 🌐 다국어 지원
+- 한국어 (기본)
+- English
+- 中文
+- 日本語
 
-1. **노들 글로벌 예술섬** - 한강의 중심 노들섬을 자연과 예술의 공간으로
-2. **DDP 서울라이트** - 동대문디자인플라자의 화려한 빛의 축제
-3. **서울링** - 상암동 하늘공원의 세계 최대 규모 대관람차
-4. **서울 아레나** - 창동역 인근의 K-POP 전문 음악 공연장
-5. **창동상계 디지털 바이오 시티** - 바이오·의료 및 디지털 산업 중심지
-6. **한강 리버버스** - 친환경 수상교통 시스템
-
-## 🚀 GitHub Pages 배포
-
-이 앱은 GitHub Pages에 배포되어 있습니다: **https://kimjihan.github.io/si-app**
-
-### 로컬 개발
-
-1. **저장소 클론**
-   ```bash
-   git clone https://github.com/KimJiHan/si-app.git
-   cd future-seoul-app
-   ```
-
-2. **API 키 설정**
-   현재 프로젝트는 데모 목적으로 API 키가 하드코딩되어 있습니다.
-   프로덕션 환경에서는 환경 변수 사용을 권장합니다.
-   
-   Google Gemini API 키는 [Google AI Studio](https://makersuite.google.com/app/apikey)에서 발급받을 수 있습니다.
-
-3. **의존성 설치**
-   ```bash
-   npm install
-   ```
-
-4. **개발 서버 실행**
-   ```bash
-   npm run dev
-   ```
-
-### 배포 설정
-
-이 프로젝트는 GitHub Actions를 통해 자동으로 배포됩니다.
-
-#### GitHub Repository Secrets 설정
-
-1. GitHub 저장소로 이동: https://github.com/KimJiHan/si-app
-2. **Settings** → **Secrets and variables** → **Actions** 메뉴로 이동
-3. **New repository secret** 버튼 클릭
-4. 다음 Secret을 추가:
-   - **Name**: `VITE_GEMINI_API_KEY`
-   - **Secret**: 실제 Gemini API 키 값
-
-#### 수동 배포 (레거시)
-
-```bash
-# 수동 배포 (GitHub Actions 사용 권장)
-npm run deploy
-```
-
-## 🎨 최근 UI/UX 개선사항
-
-### 레이아웃 최적화
-- **상단 여백 추가**: 전체 애플리케이션에 pt-12 sm:pt-16 여백 적용
-- **전체 화면 최적화**: 스크롤 없는 h-screen 레이아웃
-- **갤러리 슬라이더**: 좌우 가장자리에 네비게이션 버튼 배치
-- **에디터 레이아웃**: 40/60 비율로 이미지와 조건 설정창 배치
-
-### 타이포그래피
-- **KoPub 폰트 추가**: macOS 외 환경에서도 일관된 한국어 표시
-- **굵은 뒤로가기 버튼**: 가독성 향상을 위한 font-bold 적용
-
-### 스타일 선택 개선
-- **1단계 버튼 크기 확대**: px-5 py-3으로 터치 영역 증가
-- **단계 간 여백**: mt-8로 시각적 구분 강화
-- **카테고리별 스타일**:
-  - 예술가: 반 고흐, 피카소, 클림트, 모네 등 8종
-  - 애니메이션: 지브리, 픽사, 디즈니, 웹툰 등 5종
-  - 일러스트: 수채화, 연필 스케치, 네온 아트 등 7종
-  - 실사풍: 함박눈, 만개한 꽃, 노을 등 7종
-
-### 반응형 개선
-- **모바일 최적화**: 작은 화면에서도 모든 기능 접근 가능
-- **테마 토글 위치**: 뒤로가기와 동일 높이에 정렬
+### 🎯 추가 기능
+- 🌓 다크/라이트 테마 전환
+- 📱 QR 코드 생성 및 공유
+- 💾 이미지 다운로드
+- 📱 반응형 디자인
 
 ## 🛠️ 기술 스택
 
-### 프론트엔드
-- **React 19.1.0** - 최신 React 버전 사용
-- **Vite 7.0.4** - 빠른 개발 서버 및 빌드 도구
-- **Tailwind CSS 3.4.17** - 유틸리티 기반 CSS 프레임워크
-- **KoPub 폰트** - 한국어 최적화 폰트 (Pretendard 폴백)
+### Frontend
+- **React** 19.1.0 - 최신 버전의 React 프레임워크
+- **Vite** 7.0.4 - 고속 번들러 및 개발 서버
+- **Tailwind CSS** 3.4.17 - 유틸리티 우선 CSS 프레임워크
 
-### AI 및 외부 서비스
-- **Google Gemini 2.0 Flash** - AI 이미지 생성 모델
-- **QRCode.js** - QR 코드 생성 라이브러리
-- **Weserv Images** - 이미지 최적화 및 프록시 서비스
+### AI & APIs
+- **Google Gemini 2.0 Flash** - AI 이미지 생성
+- **Google Cloud Translation API** - 다국어 번역 지원
 
-## 🔒 보안 및 개인정보
+### Deployment
+- **GitHub Pages** - 정적 웹사이트 호스팅
+- **GitHub Actions** - CI/CD 자동화
 
-- API 키는 데모 목적으로 하드코딩되어 있습니다
-- 프로덕션 환경에서는 환경 변수 사용을 권장합니다
-- 사용자 데이터는 수집하거나 저장하지 않습니다
-- 생성된 이미지는 브라우저 세션에만 존재합니다
+## 🚀 시작하기
+
+### 사전 요구사항
+- Node.js 18.0 이상
+- npm 또는 yarn
+- Google Cloud API 키 (Gemini & Translation)
+
+### 설치 및 실행
+
+1. **저장소 클론**
+```bash
+git clone https://github.com/KimJiHan/si-app.git
+cd future-seoul-app
+```
+
+2. **의존성 설치**
+```bash
+npm install
+```
+
+3. **환경 변수 설정**
+```bash
+cp .env.example .env
+```
+
+`.env` 파일을 열어 API 키 입력:
+```env
+VITE_GEMINI_API_KEY=your_gemini_api_key_here
+VITE_TRANSLATE_API_KEY=your_translation_api_key_here
+```
+
+4. **개발 서버 실행**
+```bash
+npm run dev
+```
+
+5. **브라우저에서 확인**
+```
+http://localhost:5173
+```
+
+## 📁 프로젝트 구조
+
+```
+future-seoul-app/
+├── public/
+│   └── image/
+│       ├── page1/          # 갤러리 이미지
+│       └── page2/          # AI 에디터 참조 이미지
+├── src/
+│   ├── App.jsx             # 메인 애플리케이션
+│   ├── components/         # React 컴포넌트
+│   │   └── GoogleTranslateAPI.jsx
+│   ├── translations/       # 번역 리소스
+│   └── main.jsx           # 진입점
+├── .github/
+│   └── workflows/         # GitHub Actions
+├── package.json           # 프로젝트 설정
+└── vite.config.js        # Vite 설정
+```
+
+## 🔐 보안
+
+이 프로젝트는 환경 변수를 통해 API 키를 안전하게 관리합니다:
+- API 키는 절대 소스 코드에 포함되지 않습니다
+- GitHub Secrets를 통한 안전한 배포
+- `.env` 파일은 `.gitignore`에 포함되어 있습니다
+
+자세한 내용은 [SECURITY.md](./SECURITY.md)를 참조하세요.
+
+## 🚀 배포
+
+### GitHub Pages 자동 배포
+
+main 브랜치에 푸시하면 GitHub Actions가 자동으로 배포합니다:
+
+```bash
+git push origin main
+```
+
+### GitHub Repository Secrets 설정
+
+1. GitHub 저장소의 Settings → Secrets and variables → Actions 메뉴로 이동
+2. 다음 두 개의 Secret을 추가:
+   - `VITE_GEMINI_API_KEY`: Gemini API 키
+   - `VITE_TRANSLATE_API_KEY`: Translation API 키
+
+### 수동 배포
+
+```bash
+npm run build
+npm run deploy
+```
 
 ## 🤝 기여하기
 
-이 프로젝트는 서울연구원의 공식 프로젝트입니다. 
-기여를 원하시는 경우 이슈를 생성하거나 PR을 제출해주세요.
+프로젝트에 기여하고 싶으시다면:
 
-### Git 설정
-- `.mailmap`: 기여자 정보 통합 관리
-- `.gitmessage`: 커밋 메시지 템플릿
-- `.gitattributes`: 파일 속성 관리
+1. Fork the Project
+2. Create your Feature Branch (`git checkout -b feature/AmazingFeature`)
+3. Commit your Changes (`git commit -m 'Add some AmazingFeature'`)
+4. Push to the Branch (`git push origin feature/AmazingFeature`)
+5. Open a Pull Request
 
-## 📄 라이선스
+## 📝 라이선스
+
+이 프로젝트는 MIT 라이선스 하에 배포됩니다.
 
 Copyright 2025 The Seoul Institute. All Rights Reserved.
 
+## 👏 감사의 말
+
+- 서울연구원 - 서울 미래상 제공
+- Google Gemini Team - AI 이미지 생성 API
+- React & Vite Community - 훌륭한 개발 도구
+
+## 📞 문의
+
+프로젝트 관련 문의사항이 있으시면 [Issues](https://github.com/KimJiHan/si-app/issues)를 통해 연락주세요.
+
 ---
 
-**개발**: 서울연구원 전략실  
-**문의**: ksj1065@si.re.kr  
-**최종 업데이트**: 2025년 1월
+<p align="center">Made with ❤️ for Seoul's Future</p>
