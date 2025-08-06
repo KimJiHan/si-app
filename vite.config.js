@@ -21,8 +21,6 @@ export default defineConfig({
         manualChunks: {
           // React 관련 라이브러리 분리
           'react-vendor': ['react', 'react-dom'],
-          // 유틸리티 라이브러리 분리
-          'utils': ['qrcode'],
         },
         // 청크 파일명 설정
         chunkFileNames: 'assets/[name]-[hash].js',
