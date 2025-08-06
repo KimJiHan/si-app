@@ -3,13 +3,39 @@
 @tailwind utilities;
 
 @layer base {
+  /* 기본 폰트 스택 (macOS/iOS) */
   body {
-    font-family: 'Pretendard', 'Noto Sans KR', -apple-system, BlinkMacSystemFont, system-ui, Roboto, 'Helvetica Neue', 'Segoe UI', 'Apple SD Gothic Neo', 'Malgun Gothic', 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', sans-serif;
+    font-family: -apple-system, BlinkMacSystemFont, 'Apple SD Gothic Neo', 'Pretendard', 'Noto Sans KR', system-ui, Roboto, 'Helvetica Neue', 'Segoe UI', 'Malgun Gothic', sans-serif;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
+    font-weight: 400;
+    line-height: 1.5;
   }
+  
+  /* macOS/iOS가 아닌 환경에서 Noto Sans KR 우선 적용 */
+  .non-apple body {
+    font-family: 'Noto Sans KR', 'Pretendard', 'Malgun Gothic', 'Segoe UI', Roboto, system-ui, sans-serif !important;
+  }
+  
+  /* 폰트 로드 완료 시 최적화 */
+  .fonts-loaded body {
+    font-family: 'Noto Sans KR', 'Pretendard', -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
+  }
+  
   html {
     scroll-behavior: smooth;
+  }
+  
+  /* 한글 폰트 최적화 */
+  h1, h2, h3, h4, h5, h6 {
+    font-weight: 700;
+    word-break: keep-all;
+    line-height: 1.4;
+  }
+  
+  p {
+    word-break: keep-all;
+    line-height: 1.6;
   }
 }
 
