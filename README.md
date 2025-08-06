@@ -159,11 +159,6 @@ npm run deploy
 
 Copyright 2025 The Seoul Institute. All Rights Reserved.
 
-## 👏 감사의 말
-
-- 서울연구원 - 서울 미래상 제공
-- Google Gemini Team - AI 이미지 생성 API
-- React & Vite Community - 훌륭한 개발 도구
 
 ## 📞 문의
 
