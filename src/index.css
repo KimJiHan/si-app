@@ -12,3 +12,104 @@
     scroll-behavior: smooth;
   }
 }
+
+/* Google Translate Widget Customization */
+.google-translate-custom {
+  border-radius: 0.5rem;
+  overflow: hidden;
+  box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+  background: white;
+}
+
+.dark .google-translate-custom {
+  background: rgb(31 41 55);
+}
+
+/* Hide Google Translate banner */
+.goog-te-banner-frame {
+  display: none !important;
+}
+
+body {
+  top: 0 !important;
+}
+
+/* Style Google Translate dropdown */
+.goog-te-gadget {
+  font-family: inherit !important;
+}
+
+.goog-te-gadget-simple {
+  background-color: transparent !important;
+  border: none !important;
+  padding: 8px 12px !important;
+  font-size: 14px !important;
+  display: flex !important;
+  align-items: center !important;
+  gap: 8px !important;
+}
+
+.goog-te-gadget-icon {
+  background: none !important;
+  width: 20px !important;
+  height: 20px !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+}
+
+.goog-te-gadget-icon::before {
+  content: '🌐' !important;
+  font-size: 18px !important;
+}
+
+.goog-te-gadget-simple span {
+  color: rgb(55 65 81) !important;
+  font-weight: 500 !important;
+  margin: 0 !important;
+}
+
+.dark .goog-te-gadget-simple span {
+  color: rgb(229 231 235) !important;
+}
+
+.goog-te-gadget-simple .goog-te-menu-value {
+  margin: 0 !important;
+}
+
+.goog-te-gadget-simple .goog-te-menu-value span {
+  border: none !important;
+}
+
+/* Google Translate dropdown menu */
+.goog-te-menu-frame {
+  box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1) !important;
+  border-radius: 0.5rem !important;
+  border: 1px solid rgb(229 231 235) !important;
+}
+
+.dark .goog-te-menu-frame {
+  border-color: rgb(55 65 81) !important;
+}
+
+/* Language display names in native scripts */
+.goog-te-menu2-item {
+  font-family: inherit !important;
+}
+
+.goog-te-menu2-item span.text {
+  font-family: inherit !important;
+}
+
+/* Ensure proper font support for CJK languages */
+.goog-te-menu2-item-selected {
+  font-family: 'Pretendard', 'Noto Sans KR', 'Noto Sans SC', 'Noto Sans JP', -apple-system, BlinkMacSystemFont, system-ui, sans-serif !important;
+}
+
+/* Mobile optimization for Google Translate */
+@media (max-width: 640px) {
+  .google-translate-custom {
+    transform: scale(0.9);
+    transform-origin: top right;
+  }
+}

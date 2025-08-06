@@ -1,0 +1,97 @@
+{
+  "나만의 스타일로 서울을 그려보세요!": {
+    "en": "Draw Seoul in Your Own Style!",
+    "zh": "用你自己的风格画首尔！",
+    "ja": "あなたのスタイルでソウルを描いてみてください！"
+  },
+  "미래 서울의 모습과 현재 서울의 명소를 나만의 스타일로 그려보세요.": {
+    "en": "Draw the future of Seoul and current Seoul landmarks in your own style.",
+    "zh": "用你自己的风格描绘首尔的未来和现在的景点。",
+    "ja": "未来のソウルと現在のソウルの名所をあなたのスタイルで描いてみてください。"
+  },
+  "원하는 장소를 선택 후 그림 스타일을 선택하면 AI가 당신만의 서울을 창조합니다.": {
+    "en": "Select a place and choose an art style, and AI will create your own Seoul.",
+    "zh": "选择地点和绘画风格后，AI将为您创造独特的首尔。",
+    "ja": "場所を選んで絵のスタイルを選択すると、AIがあなただけのソウルを創造します。"
+  },
+  "완성된 그림은 QR로 소장 가능합니다.": {
+    "en": "You can save the completed artwork via QR code.",
+    "zh": "完成的作品可以通过QR码保存。",
+    "ja": "完成した絵はQRコードで保存できます。"
+  },
+  "내가 그리고 싶은 서울의 모습을 선택해주세요.": {
+    "en": "Please select the Seoul scene you want to draw.",
+    "zh": "请选择您想要绘制的首尔场景。",
+    "ja": "描きたいソウルの姿を選択してください。"
+  },
+  "미래 서울": {
+    "en": "Future Seoul",
+    "zh": "未来首尔",
+    "ja": "未来のソウル"
+  },
+  "서울 랜드마크": {
+    "en": "Seoul Landmark",
+    "zh": "首尔地标",
+    "ja": "ソウルランドマーク"
+  },
+  "서울링": {
+    "en": "Seoul Ring",
+    "zh": "首尔环",
+    "ja": "ソウルリング"
+  },
+  "노들 글로벌 예술섬": {
+    "en": "Nodeul Global Arts Island",
+    "zh": "露德全球艺术岛",
+    "ja": "ノドゥルグローバルアートアイランド"
+  },
+  "용산국제업무지구": {
+    "en": "Yongsan International Business District",
+    "zh": "龙山国际商务区",
+    "ja": "龍山国際業務地区"
+  },
+  "동대문디자인플라자": {
+    "en": "Dongdaemun Design Plaza",
+    "zh": "东大门设计广场",
+    "ja": "東大門デザインプラザ"
+  },
+  "남산서울타워": {
+    "en": "N Seoul Tower",
+    "zh": "南山首尔塔",
+    "ja": "南山ソウルタワー"
+  },
+  "북촌한옥마을": {
+    "en": "Bukchon Hanok Village",
+    "zh": "北村韩屋村",
+    "ja": "北村韓屋村"
+  },
+  "하늘공원에 조성될 세계 최대 규모의 대관람차입니다. 서울의 전경을 한눈에 담습니다.": {
+    "en": "The world's largest Ferris wheel to be built in Haneul Park. It captures Seoul's panoramic view at a glance.",
+    "zh": "将在天空公园建造的世界最大规模的摩天轮。一眼即可尽览首尔全景。",
+    "ja": "ハヌル公園に造成される世界最大規模の大観覧車です。ソウルの全景を一望できます。"
+  },
+  "노들섬을 자연과 예술, 독특한 경험이 가득한 공간으로 재탄생시키는 프로젝트입니다.": {
+    "en": "A project to transform Nodeul Island into a space full of nature, art, and unique experiences.",
+    "zh": "将露德岛改造成充满自然、艺术和独特体验的空间的项目。",
+    "ja": "ノドゥル島を自然と芸術、ユニークな体験でいっぱいの空間に生まれ変わらせるプロジェクトです。"
+  },
+  "용산역 일대를 국제적 비즈니스 허브로 조성하는 대규모 복합개발 프로젝트입니다.": {
+    "en": "A large-scale mixed-use development project to create an international business hub in the Yongsan Station area.",
+    "zh": "将龙山站一带打造成国际商务中心的大规模综合开发项目。",
+    "ja": "龍山駅一帯を国際的なビジネスハブとして造成する大規模複合開発プロジェクトです。"
+  },
+  "동대문디자인플라자는 문화와 디자인이 만나는 창의적인 공간입니다.": {
+    "en": "Dongdaemun Design Plaza is a creative space where culture and design meet.",
+    "zh": "东大门设计广场是文化与设计相遇的创意空间。",
+    "ja": "東大門デザインプラザは文化とデザインが出会う創造的な空間です。"
+  },
+  "남산 정상에 위치한 서울의 상징적인 랜드마크로, 서울 전경을 한눈에 볼 수 있습니다.": {
+    "en": "An iconic landmark of Seoul located at the top of Namsan, offering panoramic views of the city.",
+    "zh": "位于南山顶部的首尔标志性地标，可以一览首尔全景。",
+    "ja": "南山の頂上に位置するソウルの象徴的なランドマークで、ソウルの全景を一望できます。"
+  },
+  "조선시대 전통 가옥들이 보존된 서울의 대표적인 관광지구입니다.": {
+    "en": "Seoul's representative tourist district where traditional Joseon-era houses are preserved.",
+    "zh": "保存着朝鲜时代传统房屋的首尔代表性旅游区。",
+    "ja": "朝鮮時代の伝統家屋が保存されているソウルの代表的な観光地区です。"
+  }
+}
