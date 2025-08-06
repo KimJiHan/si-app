@@ -171,7 +171,7 @@ const photorealisticPrompts = {
   'lights-window': {
     name: '창밖의 불빛',
     style: '실사풍 (Photorealistic)',
-    prompt: 'Lights Beyond the Window, A masterpiece in a photorealistic style, depicting the architectural structure in the reference image while maintaining its original form and proportions, capturing a glittering nightscape as seen from inside a dark room, looking through a window covered with condensation. The lights are beautifully distorted into soft, glowing bokeh circles by the water droplets on the glass. The focus is on the shallow depth of field and the dreamy, abstract quality of the out-of-focus lights. Hyper-detailed, bokeh effects, shallow depth of field.'
+    prompt: 'Lights Beyond the Window, A masterpiece in a photorealistic style, depicting the architectural structure in the reference image while maintaining its original form and proportions, capturing a glittering nightscape as seen from inside a dark space, looking through a window covered with condensation. The lights are beautifully distorted into soft, glowing bokeh circles by the water droplets on the glass. The focus is on the shallow depth of field and the dreamy, abstract quality of the out-of-focus lights. Hyper-detailed, bokeh effects, shallow depth of field.'
   },
   'night-view': {
     name: '멋진 야경',
