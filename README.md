@@ -192,12 +192,3 @@ npm run deploy
 이 프로젝트는 MIT 라이선스 하에 배포됩니다.
 
 Copyright 2025 The Seoul Institute. All Rights Reserved.
-
-
-## 📞 문의
-
-프로젝트 관련 문의사항이 있으시면 [Issues](https://github.com/KimJiHan/si-app/issues)를 통해 연락주세요.
-
----
-
-<p align="center">Made with ❤️ for Seoul's Future</p>
