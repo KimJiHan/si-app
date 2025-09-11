@@ -29,3 +29,14 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+
+# Prompt documentation files
+랜드마크 설명 프롬프트.md
+미래도시 스타일 조건 별 프롬프트.md
+실사풍 조건 별 프롬프트.md
+애니메이션 조건 별 프롬프트.md
+예술가 조건 별 프롬프트.md
+일러스트 및 기타 스타일 조건 별 프롬프트.md
+
+# Claude-specific documentation (moved to local)
+CLAUDE.md
