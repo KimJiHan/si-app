@@ -40,3 +40,12 @@ dist-ssr
 
 # Claude-specific documentation (moved to local)
 CLAUDE.md
+
+# Local development files not needed in repository
+.claude/
+.claude.backup*/
+.playwright-mcp/
+_unused_backup/
+.mcp.json
+run_gpt_oss.sh
+deploy.sh
