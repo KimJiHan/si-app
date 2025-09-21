@@ -5,6 +5,15 @@ import { flushSync } from 'react-dom';
 const PersistentGoogleTranslate = lazy(() => import('./components/PersistentGoogleTranslate'));
 const LazyImage = lazy(() => import('./components/LazyImage'));
 
+// 프롬프트 빌더 유틸리티 임포트
+import {
+  buildGeminiPrompt,
+  createGeminiPayload,
+  getGeminiApiUrl,
+  handleGeminiError,
+  extractImageFromResponse
+} from './utils/promptBuilder';
+
 // === Icon Components (Memoized) ===
 const ChevronLeft = memo((props) => ( <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" {...props}><path d="m15 18-6-6 6-6" /></svg> ));
 const Sparkles = memo((props) => ( <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" {...props}><path d="m12 3-1.9 5.8-5.8 1.9 5.8 1.9 1.9 5.8 1.9-5.8 5.8-1.9-5.8-1.9Z" /><path d="M5 3v4" /><path d="M19 17v4" /><path d="M3 5h4" /><path d="M17 19h4" /></svg> ));
@@ -341,7 +350,7 @@ const illustrationPrompts = {
   'watercolor': {
     name: '수채화',
     style: '수채화 페인팅 (Watercolor Painting)',
-    prompt: 'A masterpiece in the **watercolor painting style**, depicting the architectural structure in the reference image while maintaining its original form and proportions, featuring soft, transparent color washes that bleed and blend into each other, creating delicate layered effects and a luminous quality that reveals the texture of the paper below. Highly detailed.'
+    prompt: 'Transform this landmark into a **pure watercolor painting masterpiece** with EXTREME watercolor effects. The image MUST show: 1) **WET-ON-WET technique** with colors bleeding and flowing into each other creating unpredictable organic patterns, 2) **VISIBLE water stains, blooms, and cauliflower effects** where pigments pool and dry unevenly, 3) **TRANSPARENT layering** with underlying colors showing through, creating luminous depth, 4) **SOFT, BLURRED edges** with no hard lines - everything should look fluid and dreamy, 5) **Granulation effects** where pigments separate and create textured washes, 6) **White paper showing through** in highlights creating breathing space, 7) **Wet paint drips and runs** suggesting spontaneous artistic expression. The architectural structure should appear as if painted with very wet brushes on textured watercolor paper, with colors merging, bleeding, and creating beautiful accidents. Think of traditional watercolor masters like Turner or Sargent - loose, fluid, atmospheric. The building should look like it\'s dissolving into pure color and water.'
   },
   'pencil': {
     name: '연필',
@@ -891,7 +900,7 @@ function Editor({ landmark, onBack, setTriggerTranslation }) {
     }
 
     const apiKey = import.meta.env.VITE_GEMINI_API_KEY;
-    
+
     if (!apiKey) {
       setError("AI 서비스가 설정되지 않았습니다. 관리자에게 문의해주세요.");
       setGeneratedImage(editorReferenceImage);
@@ -899,7 +908,7 @@ function Editor({ landmark, onBack, setTriggerTranslation }) {
       setIsLoading(false);
       return;
     }
-    
+
     setIsLoading(true);
     setError(null);
     setGeneratedImage(null);
@@ -909,370 +918,68 @@ function Editor({ landmark, onBack, setTriggerTranslation }) {
     try {
       setLoadingStep('AI가 이미지를 편집하고 있습니다...');
       const base64Image = await toBase64(editorReferenceImage);
-      
+
       const imagePart = { inlineData: { mimeType: 'image/jpeg', data: base64Image.split(',')[1] } };
-      
-      let textPrompt = `MANDATORY FORMAT: Generate a VERTICAL image with 3:4 aspect ratio (portrait orientation, taller than wide). 
 
-CRITICAL ORIENTATION RULES: 
-- The image must be ABSOLUTELY UPRIGHT and properly oriented
-- NEVER inverted, flipped, rotated, or upside down
-- Buildings must stand on their foundations, not on their roofs
-- Sky must be above, ground must be below
-- Maintain correct gravitational orientation at all times
-
-NO TEXT WHATSOEVER:
-- Absolutely NO text, words, letters, numbers, or characters
-- NO signs, labels, captions, or watermarks
-- NO typography or written language in any script
-- Pure visual art only - no textual elements of any kind
-
-QUALITY REQUIREMENTS: Create an ultra high quality, professional masterpiece image. Resolution: 8K quality (minimum 2048x2732 pixels). Detail level: Hyper-detailed with sharp focus and crystal clear rendering. Professional studio-quality output.
-
-ARTISTIC INTERPRETATION: Reimagine this landmark, '${landmark.editorTitle || landmark.title}', in VERTICAL 3:4 portrait format. The building must remain RECOGNIZABLE and UPRIGHT while allowing maximum artistic freedom. `;
-      
-      if (selectedCategory.id === 'photorealistic' && photorealisticPrompts[selectedStyle.value]) {
-        const photoData = photorealisticPrompts[selectedStyle.value];
-        textPrompt += `\nApply the photorealistic visual treatment described: ${photoData.prompt} IMPORTANT: While maintaining photorealistic quality, embrace creative camera angles and compositional techniques used in architectural photography - dramatic perspectives, interesting framing, and dynamic viewpoints are encouraged. CRITICAL: Ensure realistic and authentic depiction (사실적인 묘사) - all visual elements must appear natural, physically accurate, and true to real-world conditions.`;
-        
-        // 실사풍 스타일별 구도 가이드
-        if (selectedStyle.value === 'spring-cherry-blossoms') {
-          textPrompt += ` COMPOSITION GUIDE: Use cherry blossom framing techniques, petal-filled foreground perspectives, and soft spring light angles.`;
-        } else if (selectedStyle.value === 'autumn-leaves') {
-          textPrompt += ` COMPOSITION GUIDE: Apply autumn foliage canopy views, golden hour side-lighting, and leaf-scattered ground perspectives.`;
-        } else if (selectedStyle.value === 'night-lights') {
-          textPrompt += ` COMPOSITION GUIDE: Use night cityscape elevations, light trail compositions, and reflective surface perspectives.`;
-        } else if (selectedStyle.value === 'sunrise-hope') {
-          textPrompt += ` COMPOSITION GUIDE: Apply dawn silhouette compositions, sun ray perspectives, and hopeful upward angles.`;
-        } else if (selectedStyle.value === 'sunset-emotional') {
-          textPrompt += ` COMPOSITION GUIDE: Use golden hour backlighting, emotional silhouette framing, and warm color gradient perspectives.`;
-        } else if (selectedStyle.value === 'fog-mystery') {
-          textPrompt += ` COMPOSITION GUIDE: Apply mysterious depth layering, partial visibility compositions, and atmospheric fade perspectives.`;
-        }
-      } else if (selectedCategory.id === 'artist' && artistPrompts[selectedStyle.value]) {
-        // 예술가 스타일의 경우 단일 예술 운동 기반 프롬프트 사용
-        const artistData = artistPrompts[selectedStyle.value];
-        
-        // 추가 창의성 변수 - 매 생성마다 다른 예술적 접근
-        const creativeModifiers = [
-          "The building is melting like a Salvador Dali clock. ",
-          "The architecture explodes into a thousand fragments. ",
-          "Reality is breaking - multiple dimensions overlap. ",
-          "The building exists in a dream state - logic doesn't apply. ",
-          "Time is visible - past, present, future merge in one image. ",
-          "The building is alive and breathing. ",
-          "Gravity has reversed - everything floats. ",
-          "The structure exists only as pure emotion and color. "
-        ];
-        const randomModifier = creativeModifiers[Math.floor(Math.random() * creativeModifiers.length)];
-        
-        // 예술가의 고유한 시각적 언어로 자유로운 재해석
-        const artistPrompt = typeof artistData.prompt === 'function' ? artistData.prompt() : artistData.prompt;
-        textPrompt += `\n${randomModifier}Transform the landmark through the artist's unique vision. Apply: ${artistPrompt} ARTISTIC INTERPRETATION: While the landmark must remain recognizable, apply bold artistic transformations - distortion, stylization, emotional coloring, and compositional freedom. The artist's style should dramatically alter the viewing experience while preserving the building's identity. CRITICAL FOR VAN GOGH: DO NOT maintain the original photograph's composition. Create a completely NEW and DYNAMIC viewing angle that best expresses Van Gogh's emotional intensity.`;
-        
-        // 스타일별 동적 구도 가이드
-        if (selectedStyle.value === 'van-gogh') {
-          const vanGoghCompositions = [
-            `EXTREME ANGLE: WORM'S EYE VIEW - Looking straight up from the base, the building towers into a swirling vortex sky. The structure appears to spiral into infinity. We see the underside of every architectural element.`,
-            `EXTREME ANGLE: DIAGONAL DUTCH TILT - The entire frame is rotated 45 degrees. The building leans dramatically while maintaining upright orientation. Creates dynamic tension and emotional instability.`,
-            `EXTREME ANGLE: THROUGH THE WHEAT - View the building from ground level through tall grass or wheat in extreme foreground. The vegetation takes up 70% of the frame, building emerges like a distant dream.`,
-            `EXTREME ANGLE: FISH-EYE DISTORTION - The building curves in a 180-degree view. Edges bend dramatically inward. The center bulges forward. Reality warps but maintains orientation.`,
-            `EXTREME ANGLE: SPLIT-SCREEN DUALITY - The building is shown from two angles simultaneously in one frame. Left side shows close-up detail, right side shows distant full view. Two realities coexist.`,
-            `EXTREME ANGLE: REFLECTION FOCUS - The building is small in the background. A puddle or window in extreme foreground shows a distorted reflection that dominates the frame. The reflection is more real than reality.`,
-            `EXTREME ANGLE: CORNER EMPHASIS - Extreme close-up on one corner of the building. This single corner fills the entire frame. We see texture, detail, emotional weight in one architectural joint.`,
-            `EXTREME ANGLE: ATMOSPHERIC LAYERS - Multiple transparent layers of the building at different distances. Near, middle, far all overlap in one frame. Creates depth through emotional atmosphere.`,
-            `EXTREME ANGLE: MOTION BLUR SWEEP - The building appears to be photographed while the viewer is in motion. Horizontal streaks of paint create speed. The structure remains sharp in the center while edges blur into emotion.`,
-            `EXTREME ANGLE: FRAGMENTED VISION - The building is seen through a shattered window or broken fence. The foreground obstruction creates a fragmented, prison-like view. We see the building in pieces.`
-          ];
-          textPrompt += ` ${vanGoghCompositions[Math.floor(Math.random() * vanGoghCompositions.length)]}`;
-          
-          // 랜드마크별 반 고흐 특화 구도
-          if (landmark.id === 'seoul-ring') {
-            textPrompt += ` LANDMARK-SPECIFIC: The ring structure becomes a cosmic portal. Swirling brushstrokes spiral through the center void. The ring rotates with Van Gogh's characteristic circular energy patterns.`;
-          } else if (landmark.id === 'nodeul-arts-island') {
-            textPrompt += ` LANDMARK-SPECIFIC: The island floats on waves of thick paint. Water becomes dynamic movement. The building reflects in impressionistic ripples that dominate the composition.`;
-          } else if (landmark.id === 'yongsan-business-district') {
-            textPrompt += ` LANDMARK-SPECIFIC: Multiple towers spiral upward like cypress trees. Each building is a beacon reaching toward an energetic sky. Urban density becomes organic growth.`;
-          } else if (landmark.id === 'dongdaemun-design-plaza') {
-            textPrompt += ` LANDMARK-SPECIFIC: The curved structure flows like liquid metal. Van Gogh's swirls follow the building's organic form. Architecture and brushstrokes become one flowing entity.`;
-          } else if (landmark.id === 'namsan-tower') {
-            textPrompt += ` LANDMARK-SPECIFIC: The tower rises through swirling clouds like a spire through silk. Vertical brushstrokes emphasize its height. The city below becomes a sea of paint.`;
-          } else if (landmark.id === 'bukchon-hanok') {
-            textPrompt += ` LANDMARK-SPECIFIC: Traditional rooflines dance like waves. Each tile is a brushstroke. The village becomes a rhythmic pattern of repeating emotional gestures.`;
-          }
-        } else if (selectedStyle.value === 'picasso') {
-          // 피카소는 이미 랜덤화되어 있으므로 추가 극단적 화각 변형 적용
-          const picassoCompositions = [
-            `EXTREME ANGLE: View from INSIDE a shattered window - glass fragments frame the building in prismatic distortion. We see through the break.`,
-            `EXTREME ANGLE: VERTICAL SLICE VIEW - the building is cut in half lengthwise, showing impossible interior/exterior fusion. Like looking at a dissected body.`,
-            `EXTREME ANGLE: SPIRAL PERSPECTIVE - the building twists around itself like a DNA helix. Top becomes bottom, inside becomes outside.`,
-            `EXTREME ANGLE: MICROSCOPIC ZOOM - dive into a single brick that contains the entire building in miniature. Infinite recursive zoom.`,
-            `EXTREME ANGLE: X-RAY VISION - see through all walls simultaneously. Every room, every floor visible at once in transparent layers.`,
-            `EXTREME ANGLE: KALEIDOSCOPE EYE - the building reflected in a shattered mirror, creating infinite fractured repetitions.`,
-            `EXTREME ANGLE: DYNAMIC TENSION - view the building as if energy radiates from its core. Walls stretch dynamically, floors show movement and life.`,
-            `EXTREME ANGLE: TIME-LAPSE TRANSFORMATION - see the building's construction and evolution happening simultaneously in one frozen moment.`
-          ];
-          textPrompt += ` ${picassoCompositions[Math.floor(Math.random() * picassoCompositions.length)]}`;
-        } else if (selectedStyle.value === 'monet') {
-          const monetCompositions = [
-            `RADICAL COMPOSITION: The building nearly disappears in morning mist. Only hints of form emerge from pure color and light.`,
-            `RADICAL COMPOSITION: Extreme backlighting - the building becomes a dark silhouette drowning in explosive sunset colors.`,
-            `RADICAL COMPOSITION: Reflected in water - the building exists only as rippling impressions. Reality dissolves into liquid light.`,
-            `RADICAL COMPOSITION: Through heavy rain - architecture breaks into thousands of colored dots. Form surrenders to atmosphere.`,
-            `RADICAL COMPOSITION: Multiple overlapping moments - the same building at different times bleeding into one image.`
-          ];
-          textPrompt += ` ${monetCompositions[Math.floor(Math.random() * monetCompositions.length)]}`;
-        } else if (selectedStyle.value === 'chagall') {
-          const chagallCompositions = [
-            `RADICAL COMPOSITION: The building floats upside-down while people walk on clouds. Gravity is optional. Logic is banned.`,
-            `RADICAL COMPOSITION: The building transforms into a giant musical instrument. Windows become notes, doors become melodies.`,
-            `RADICAL COMPOSITION: Split the building in half - one side in day, one in night. Time itself is broken.`,
-            `RADICAL COMPOSITION: The building grows wings and flies among constellation animals. Architecture becomes mythology.`,
-            `RADICAL COMPOSITION: Miniaturize the building inside a flower held by floating lovers. Scale has no meaning.`
-          ];
-          textPrompt += ` ${chagallCompositions[Math.floor(Math.random() * chagallCompositions.length)]}`;
-        } else if (selectedStyle.value === 'schiele') {
-          const schieleCompositions = [
-            `RADICAL COMPOSITION: Extreme angular expression - the building twists with psychological intensity. Walls express through sharp angles.`,
-            `RADICAL COMPOSITION: Crop 90% of the building. Show only an expressive corner that contains all emotional weight.`,
-            `RADICAL COMPOSITION: The building shows dramatic diagonal composition, expressing internal tension through sharp angular forms.`,
-            `RADICAL COMPOSITION: X-ray view - see through walls to reveal the building's emotional skeleton. Structure as raw nerve.`,
-            `RADICAL COMPOSITION: Fragment the building into sharp shards. Each piece cuts the viewer's eye.`
-          ];
-          textPrompt += ` ${schieleCompositions[Math.floor(Math.random() * schieleCompositions.length)]}`;
-        } else if (selectedStyle.value === 'warhol') {
-          const warholCompositions = [
-            `RADICAL COMPOSITION: Repeat the building 16 times in a grid, each in different neon colors. Mass production aesthetic.`,
-            `RADICAL COMPOSITION: Extreme color inversion - make the building fluorescent pink and green. Reality is synthetic.`,
-            `RADICAL COMPOSITION: Crop to just the building's logo/sign, enlarged 1000%. Architecture as brand.`,
-            `RADICAL COMPOSITION: Silkscreen error aesthetic - misaligned color layers create ghosting effects.`,
-            `RADICAL COMPOSITION: The building as product packaging. Architecture becomes consumer goods.`
-          ];
-          textPrompt += ` ${warholCompositions[Math.floor(Math.random() * warholCompositions.length)]}`;
-        } else if (selectedStyle.value === 'kusama') {
-          const kusamaCompositions = [
-            `RADICAL COMPOSITION: The building EXPLODES into infinite dots expanding to cosmos. Architecture becomes universe.`,
-            `RADICAL COMPOSITION: Mirror recursion - the building reflects into infinite copies receding to vanishing point.`,
-            `RADICAL COMPOSITION: Dots consume everything - the building fights to exist against obliteration.`,
-            `RADICAL COMPOSITION: The building becomes a single giant dot containing smaller dots containing buildings.`,
-            `RADICAL COMPOSITION: Hallucination view - multiple overlapping buildings phase in and out of existence.`
-          ];
-          textPrompt += ` ${kusamaCompositions[Math.floor(Math.random() * kusamaCompositions.length)]}`;
-        } else if (selectedStyle.value === 'korean-landscape') {
-          const koreanLandscapeCompositions = [
-            `SERENE COMPOSITION: The building occupies only 10% of the image, appearing as a distant element. 90% is mist, empty sky, and void. The architecture barely whispers its presence.`,
-            `SERENE COMPOSITION: Three-distance perspective - the building small in middle distance, mountains fade to nothing, foreground is empty space. Vast breathing room dominates.`,
-            `SERENE COMPOSITION: The building suggested through three minimal brushstrokes. Everything else is gradations of empty mist and silent space.`,
-            `SERENE COMPOSITION: Only the building’s roofline visible above clouds. The rest dissolves into infinite white emptiness. Form emerges from void.`,
-            `SERENE COMPOSITION: Asymmetrical placement - building tucked in lower corner, massive empty sky above. The void has more presence than the structure.`
-          ];
-          textPrompt += ` ${koreanLandscapeCompositions[Math.floor(Math.random() * koreanLandscapeCompositions.length)]}`;
-        } else if (selectedStyle.value === 'korean-screen') {
-          const koreanScreenCompositions = [
-            `SERENE MULTI-PANEL COMPOSITION: The building gracefully spans across 6-8 panels, with each panel containing only essential elements - most space remains empty. The architectural details appear with ultra-precision in select areas while vast negative spaces create breathing room between panels.`,
-            `SERENE MULTI-PANEL COMPOSITION: Asymmetrical placement across multiple panels - the building occupies the lower third of some panels while others remain nearly empty, creating a dynamic rhythm of presence and absence across the folding screen.`,
-            `SERENE MULTI-PANEL COMPOSITION: The building's different architectural elements distributed sparsely across panels - a roofline here, a column there - with generous empty spaces between, allowing each element to be contemplated individually.`,
-            `SERENE MULTI-PANEL COMPOSITION: Central panels feature the main structure in hyper-detail, while outer panels fade to near emptiness with only subtle hints of the building's edges, creating a gentle emergence from and return to void.`,
-            `SERENE MULTI-PANEL COMPOSITION: Each panel shows a different time of day with the building rendered in increasingly subtle tones - from soft morning light to barely visible evening silhouettes, emphasizing the beauty of restraint and emptiness.`
-          ];
-          textPrompt += ` ${koreanScreenCompositions[Math.floor(Math.random() * koreanScreenCompositions.length)]}`;
-        } else if (selectedStyle.value === 'korean-genre') {
-          const koreanGenreCompositions = [
-            `GENTLE COMPOSITION: Tiny figures in vast empty courtyard. The building is backdrop, human activity is subtle dots. 80% empty space creates tranquility.`,
-            `GENTLE COMPOSITION: Single figure contemplating the building from afar. Massive negative space between viewer and architecture. Solitude emphasized through emptiness.`,
-            `GENTLE COMPOSITION: Daily activities suggested through minimal gestures. Figures occupy corners, center is vast emptiness. Space breathes between every element.`,
-            `GENTLE COMPOSITION: The building fades into soft background. Few delicate human figures in foreground. Middle ground is pure empty space.`,
-            `GENTLE COMPOSITION: Activities happen at edges of frame. Center is peaceful void. Architecture and humans frame the emptiness, not fill it.`
-          ];
-          textPrompt += ` ${koreanGenreCompositions[Math.floor(Math.random() * koreanGenreCompositions.length)]}`;
-        } else if (selectedStyle.value === 'lee-jung-seob') {
-          const leeJungSeopCompositions = [
-            `RADICAL COMPOSITION: The building writhes in pain - walls crack with emotional wounds. Architecture bleeds.`,
-            `RADICAL COMPOSITION: Savage scratches tear through the building. Each line is a scream.`,
-            `RADICAL COMPOSITION: The building transforms into a wounded bull. Architecture becomes animal rage.`,
-            `RADICAL COMPOSITION: Children's drawings overlay adult architecture - innocence battles structure.`,
-            `RADICAL COMPOSITION: The building explodes from internal pressure. Emotion destroys form.`
-          ];
-          textPrompt += ` ${leeJungSeopCompositions[Math.floor(Math.random() * leeJungSeopCompositions.length)]}`;
-        }
-      } else if (selectedCategory.id === 'animation' && animationPrompts[selectedStyle.value]) {
-        const animationData = animationPrompts[selectedStyle.value];
-        textPrompt += `\nApply the animation visual treatment described: ${animationData.prompt} IMPORTANT: While maintaining the landmark's recognizable features, embrace the animation style's characteristic perspectives and dynamic compositions to create an engaging scene.`;
-        
-        // 애니메이션 스타일별 구도 가이드
-        if (selectedStyle.value === 'ghibli') {
-          textPrompt += ` COMPOSITION GUIDE: Use Ghibli's signature wide establishing shots with detailed foreground elements, low-angle hero perspectives, and dramatic sky compositions.`;
-        } else if (selectedStyle.value === 'pixar') {
-          textPrompt += ` COMPOSITION GUIDE: Apply Pixar's dynamic camera angles, cinematic depth of field, and emotionally expressive viewpoints.`;
-        } else if (selectedStyle.value === 'disney') {
-          textPrompt += ` COMPOSITION GUIDE: Use Disney's magical castle framing, fairy-tale perspectives, and romantic golden hour lighting angles.`;
-        } else if (selectedStyle.value === 'dreamworks') {
-          textPrompt += ` COMPOSITION GUIDE: Apply DreamWorks' adventurous action angles, dynamic motion perspectives, and epic landscape framing.`;
-        } else if (selectedStyle.value === 'japanese-anime') {
-          textPrompt += ` COMPOSITION GUIDE: Use anime's dramatic low angles, speed lines perspective, and atmospheric depth with detailed backgrounds.`;
-        } else if (selectedStyle.value === 'webtoon') {
-          textPrompt += ` COMPOSITION GUIDE: Apply vertical scrolling composition, cinematic panel transitions, and dramatic close-up to wide-shot contrasts.`;
-        } else if (selectedStyle.value === 'simpsons') {
-          textPrompt += ` COMPOSITION GUIDE: Use Springfield's flat staging, three-quarter view angles, and sitcom-style establishing shots.`;
-        } else if (selectedStyle.value === 'pokemon') {
-          textPrompt += ` COMPOSITION GUIDE: Apply battle arena perspectives, trainer's eye view, and dynamic action compositions.`;
-        } else if (selectedStyle.value === 'makoto-shinkai') {
-          textPrompt += ` COMPOSITION GUIDE: Use Shinkai's signature train crossing angles, dramatic sky reflections, and emotionally distant perspectives.`;
-        } else if (selectedStyle.value === 'kpop-demon-hunters') {
-          textPrompt += ` COMPOSITION GUIDE: Apply Netflix animation cinematic framing, webtoon-style dramatic angles, supernatural battle choreography with idol poses, glowing magical effects around the landmark, and dynamic action camera movements typical of K-pop performance videos mixed with anime fight scenes.`;
-        } else if (selectedStyle.value === 'vintage-poster') {
-          textPrompt += ` COMPOSITION GUIDE: Use Art Deco vertical compositions, symmetrical arrangements, and bold geometric framing without radial patterns.`;
-        }
-      } else if (selectedCategory.id === 'illust' && illustrationPrompts[selectedStyle.value]) {
-        const illustData = illustrationPrompts[selectedStyle.value];
-        textPrompt += `\nApply the illustration visual treatment described: ${illustData.prompt} IMPORTANT: While keeping the landmark identifiable, feel free to use creative artistic interpretation and compositional freedom characteristic of the chosen illustration style.`;
-        
-        // 일러스트 스타일별 구도 가이드
-        if (selectedStyle.value === 'pixel-art') {
-          textPrompt += ` COMPOSITION GUIDE: Use isometric or platform game perspective, 45-degree angles, and clear pixel grid alignment.`;
-        } else if (selectedStyle.value === 'isometric') {
-          textPrompt += ` COMPOSITION GUIDE: Maintain precise 30-degree isometric angle, use elevated viewpoint, and create depth through layered elements.`;
-        } else if (selectedStyle.value === 'tilt-shift') {
-          textPrompt += ` COMPOSITION GUIDE: Apply miniature effect with selective focus, elevated viewpoint looking down, and strong depth of field blur.`;
-        } else if (selectedStyle.value === 'watercolor') {
-          textPrompt += ` COMPOSITION GUIDE: Use soft atmospheric perspectives, bleeding color transitions, and impressionistic light compositions.`;
-        } else if (selectedStyle.value === 'pencil') {
-          textPrompt += ` COMPOSITION GUIDE: Apply architectural sketch perspectives, construction line dynamics, and dramatic shadow compositions.`;
-        } else if (selectedStyle.value === 'crayon-colored-pencil') {
-          textPrompt += ` COMPOSITION GUIDE: Use childlike whimsical perspectives, layered texture building, and vibrant color blocking compositions.`;
-        } else if (selectedStyle.value === 'neon-art') {
-          textPrompt += ` COMPOSITION GUIDE: Apply neon sign framing, reflective surface perspectives, and electric glow compositions against dark backgrounds.`;
-        } else if (selectedStyle.value === 'lego') {
-          textPrompt += ` COMPOSITION GUIDE: Apply authentic LEGO set photography angles - 3/4 view display perspective like official LEGO box art, slightly elevated viewpoint to show brick studs clearly, clean white background studio setup, depth of field blur for miniature toy effect. Show the building as if it's sitting on LEGO baseplates with visible brick connections and modular sections. Use dramatic product photography lighting to emphasize the plastic toy texture and individual brick details.`;
-        } else if (selectedStyle.value === 'figure') {
-          textPrompt += ` COMPOSITION GUIDE: Use architectural model photography angles - elevated 3/4 view showing the landmark as a premium miniature figure. Display on a clean base or pedestal like a museum piece. Professional product lighting with multiple light sources to highlight architectural details. Show scale reference subtly. The landmark itself IS the figure, not stylized but accurately miniaturized.`;
-        }
-      } else if (selectedCategory.id === 'futureCity' && futureCityPrompts[selectedStyle.value]) {
-        const futureCityData = futureCityPrompts[selectedStyle.value];
-        textPrompt += `\nApply the future city visual treatment described: ${futureCityData.prompt} IMPORTANT: While maintaining the landmark's recognizable identity, integrate it creatively into the futuristic scene with dynamic angles and compelling compositions. Ensure realistic and plausible depiction (사실적인 묘사) of all futuristic elements - they should look technically feasible and grounded in reality. Ultra high resolution 8K quality.`;
-        
-        // 미래도시 스타일별 구도 가이드
-        if (selectedStyle.value === 'cyberpunk') {
-          textPrompt += ` COMPOSITION GUIDE: Use extreme vertical compositions looking up from street level, neon-lit bottom-up views, and Blade Runner-style towering perspectives.`;
-        } else if (selectedStyle.value === 'urban-uam-adventure') {
-          textPrompt += ` COMPOSITION GUIDE: Apply dynamic aerial perspectives, banking angles, and first-person cockpit views with motion blur.`;
-        } else if (selectedStyle.value === 'robots-drones') {
-          textPrompt += ` COMPOSITION GUIDE: Use street-level perspectives with robots in foreground, drone traffic layers in sky, and human-robot interaction focus.`;
-        } else if (selectedStyle.value === 'flying-cars') {
-          textPrompt += ` COMPOSITION GUIDE: Apply multi-layered traffic perspectives, aerial highway viewpoints, and dynamic vehicle movement angles.`;
-        } else if (selectedStyle.value === 'hologram-city') {
-          textPrompt += ` COMPOSITION GUIDE: Use translucent hologram overlays, night cityscape with light projections, and layered reality perspectives.`;
-        } else if (selectedStyle.value === 'green-streets') {
-          textPrompt += ` COMPOSITION GUIDE: Apply nature-integrated architecture views, vertical garden perspectives, and eco-friendly urban canopy angles.`;
-        } else if (selectedStyle.value === 'robots-daily') {
-          textPrompt += ` COMPOSITION GUIDE: Use intimate human-robot interaction angles, warm daily life perspectives, and coexistence-focused compositions.`;
-        }
-      } else {
-        textPrompt += `\nApply the artistic style of ${selectedStyle.value}. IMPORTANT: While maintaining the landmark's recognizable identity, feel free to use creative compositional choices and artistic interpretation to create a visually compelling image.`;
+      // 프롬프트 빌더 유틸리티를 사용하여 프롬프트 생성
+      let promptData = null;
+      if (selectedCategory.id === 'photorealistic') {
+        promptData = photorealisticPrompts[selectedStyle.value];
+      } else if (selectedCategory.id === 'artist') {
+        promptData = artistPrompts[selectedStyle.value];
+      } else if (selectedCategory.id === 'animation') {
+        promptData = animationPrompts[selectedStyle.value];
+      } else if (selectedCategory.id === 'illust') {
+        promptData = illustrationPrompts[selectedStyle.value];
+      } else if (selectedCategory.id === 'futureCity') {
+        promptData = futureCityPrompts[selectedStyle.value];
       }
 
-      if (landmark.id === 'seoul-ring') {
-        textPrompt += `\nEnsure the spokeless, vertically-oriented ring structure is clearly depicted.`;
-      }
-      
-      // 노들섬 + 미래도시 스타일인 경우 강(river) 배경 및 수상버스 추가
-      const futureCityStyles = ['robots-drones', 'flying-cars', 'hologram-city', 'green-streets', 'cyberpunk', 'urban-uam-adventure'];
-      if (landmark.id === 'nodeul-island' && futureCityStyles.includes(selectedStyle.value)) {
-        // 노들섬 + 미래도시 스타일 조건
-        
-        // 로봇과 드론 스타일인 경우 특별 처리
-        if (selectedStyle.value === 'robots-drones') {
-          textPrompt += `\nThe background of this scene MUST be a river (강). Instead of a street scene, this must be a riverside (강변) scene where robots walk along the riverside path and drones fly over the river. Water buses (수상버스) must be visible moving on the river. The building must be positioned with the river clearly visible as the background.`;
+      const textPrompt = buildGeminiPrompt(landmark, selectedCategory, selectedStyle, promptData);
+
+      // API 호출
+      const apiUrl = getGeminiApiUrl();
+      const requestBody = createGeminiPayload(textPrompt, base64Image);
+
+      try {
+        const response = await fetch(apiUrl, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(requestBody)
+        });
+
+        if (!response.ok) {
+          const errorData = await response.json();
+          console.error('Gemini API Error:', errorData);
+          throw new Error(`HTTP error! status: ${response.status}`);
+        }
+
+        const data = await response.json();
+        const generatedImage = extractImageFromResponse(data);
+
+        if (!generatedImage) {
+          throw new Error('이미지 생성에 실패했습니다.');
+        }
+
+        // 생성된 이미지 처리 - URL인지 base64인지 확인
+        let fullImageUrl;
+        if (generatedImage.startsWith('http://') || generatedImage.startsWith('https://')) {
+          // URL인 경우 그대로 사용
+          fullImageUrl = generatedImage;
+        } else if (generatedImage.startsWith('data:image')) {
+          // 이미 data URL 형식인 경우
+          fullImageUrl = generatedImage;
         } else {
-          textPrompt += `\nThe background of this scene MUST be a river (강). The building must be positioned with the river clearly visible as the background behind it. Water buses (수상버스) must be visible moving on the river. Include one or more water buses navigating the river as part of the scene composition. The river should be a prominent feature in the composition.`;
+          // base64 문자열인 경우 data URL로 변환
+          fullImageUrl = `data:image/png;base64,${generatedImage}`;
         }
-      }
-      
-      // 노들섬 + 실사풍 스타일인 경우 강 배경 및 수상버스 추가
-      const photorealisticStyles = ['heavy-snow', 'full-bloom', 'thunder-lightning', 'sunset', 'strong-sunlight', 'autumn-leaves', 'lights-window', 'night-view', 'starry-sky', 'black-white', 'fireworks'];
-      if (landmark.id === 'nodeul-island' && photorealisticStyles.includes(selectedStyle.value)) {
-        // 노들섬 + 실사풍 스타일 조건
-        textPrompt += `\nThe background of this scene MUST be a river (강). The building must be positioned with the river clearly visible as the background. Water buses (수상버스) must be visible moving on the river. Include one or more water buses navigating the river as part of the scene composition. The river should be a prominent feature in the composition.`;
-      }
-      
-      // 서울링 + 미래도시 스타일인 경우 공원 배경 추가
-      if (landmark.id === 'seoul-ring' && futureCityStyles.includes(selectedStyle.value)) {
-        // 서울링 + 미래도시 스타일 조건
-        textPrompt += `\nThe background of this scene MUST be a park (공원). The Seoul Ring structure must be positioned with the park clearly visible as the background. The park setting should include green spaces, trees, and pathways. The park should be a prominent feature in the composition.`;
-      }
-      
-      // 남산 서울타워 + 미래도시 스타일인 경우 남산 배경 추가
-      if (landmark.id === 'namsan-tower' && futureCityStyles.includes(selectedStyle.value)) {
-        // 남산 서울타워 + 미래도시 스타일 조건
-        textPrompt += `\nThe background of this scene MUST be Mount Namsan (남산). The Seoul Tower must be positioned on top of Mount Namsan with the mountain's forested slopes clearly visible as the background. The mountain landscape with its trees and natural terrain should be a prominent feature in the composition. The futuristic elements should blend harmoniously with the natural mountain setting.`;
-      }
-      
-      // 용산국제업무지구 + 실사풍 + 멋진 야경인 경우 건물 불빛 추가
-      if (landmark.id === 'yongsan-business-district' && selectedCategory.id === 'photorealistic' && selectedStyle.value === 'night-view') {
-        // 용산국제업무지구 + 실사풍 + 멋진 야경 조건
-        textPrompt += `\nThis is a business district scene at night. The buildings MUST have illuminated windows creating a beautiful night cityscape (건물들의 불빛/야경). Multiple office buildings should show patterns of lit windows against the dark night sky. The building lights should create a sophisticated urban night atmosphere with various lighting levels across different floors and buildings.`;
-      }
 
-      // FINAL MANDATORY REQUIREMENTS 추가
-      textPrompt += `\n\nFINAL REQUIREMENTS:
-1. [CRITICAL] QUALITY: Ultra high quality 8K resolution masterpiece with hyper-detailed rendering (minimum 2048x2732 pixels)
-2. [CRITICAL] FORMAT: VERTICAL 3:4 aspect ratio (portrait orientation) - MUST be upright, never inverted or rotated
-3. [CRITICAL] ORIENTATION: The building and all elements MUST be properly oriented - no upside-down, flipped, or 180-degree rotated images
-4. [CRITICAL] LANDMARK RECOGNITION: The building MUST remain recognizable as '${landmark.editorTitle || landmark.title}'
-5. [HIGH] ARTISTIC FREEDOM: Apply dramatic artistic interpretation while keeping the landmark identifiable and ABSOLUTELY UPRIGHT
-6. [ENCOURAGED] CREATIVE COMPOSITION: Use dynamic angles and artistic styles while maintaining CORRECT GRAVITATIONAL ORIENTATION
+        setGeneratedImage(fullImageUrl);
+        setIsBaseImage(false);
 
-BALANCE: The landmark's identity must be preserved, but artistic style should powerfully transform the viewing experience.
-CREATIVITY WITHIN BOUNDS: Be bold and innovative while ensuring viewers can still identify the landmark.
-
-FINAL CRITICAL REMINDERS:
-- ORIENTATION: No upside-down, inverted, flipped, or rotated images - EVER
-- TEXT PROHIBITION: Zero tolerance for any text, letters, numbers, signs, or written elements
-- NO radial sunburst patterns, rising sun imagery, or light rays emanating from center
-- Buildings MUST stand upright on their foundations with sky above and ground below`;
-      
-      // 최종 프롬프트 확인용 로그
-      // Final prompt ready for generation
-      
-      let geminiPayload = { 
-        contents: [{ 
-          parts:[
-            { text: textPrompt },
-            imagePart
-          ]
-        }],
-        generationConfig: { 
-          "responseModalities": ["TEXT", "IMAGE"]
-        }
-      };
-
-      const geminiApiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-image-preview:generateContent?key=${apiKey}`;
-      const geminiRes = await fetch(geminiApiUrl, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(geminiPayload) });
-      
-      if (!geminiRes.ok) {
-        const errorData = await geminiRes.json();
-        // Gemini API Error
-        
-        // 더 구체적인 에러 메시지 처리
-        if (errorData.error?.message?.includes('Unable to process input image')) {
-          throw new Error('이미지 처리 실패: 이미지 형식이나 크기를 확인해주세요.');
-        } else if (errorData.error?.message?.includes('API key')) {
-          throw new Error('API 키가 유효하지 않습니다.');
-        } else {
-          throw new Error(`Gemini API Error: ${errorData.error?.message || '알 수 없는 오류'}`);
-        }
-      }
-      
-      const geminiResult = await geminiRes.json();
-      
-      const imageResponsePart = geminiResult.candidates[0].content.parts.find(part => part.inlineData && part.inlineData.mimeType.startsWith('image/'));
-
-      if (imageResponsePart) {
-        const imageUrl = `data:${imageResponsePart.inlineData.mimeType};base64,${imageResponsePart.inlineData.data}`;
-        setGeneratedImage(imageUrl);
-        
-        // 이미지 생성 후 1.5초 후에 재생성 메시지 표시 및 번역 트리거
-        setShowRegenerateMessage(false);
+        // 1.5초 후 재생성 메시지 표시
         setTimeout(() => {
           setShowRegenerateMessage(true);
           // 번역 다시 트리거
@@ -1280,10 +987,18 @@ FINAL CRITICAL REMINDERS:
             setTriggerTranslation(prev => prev + 1);
           }
         }, 1500);
-      } else {
-        throw new Error("AI did not return an image.");
+      } catch (error) {
+        console.error('이미지 생성 중 오류 발생:', error);
+        if (error.message.includes("overloaded")) {
+          setError("AI 모델이 현재 과부하 상태입니다. 잠시 후 다시 시도해주세요.");
+        } else if (error.message.includes("이미지 처리 실패")) {
+          setError("이미지 처리에 실패했습니다. 다른 이미지를 선택하거나 잠시 후 다시 시도해주세요.");
+        } else {
+          setError(`오류가 발생했습니다: ${error.message}`);
+        }
+        setGeneratedImage(editorReferenceImage);
+        setIsBaseImage(true);
       }
-
     } catch (err) {
       // Image generation error
       if (err.message.includes("overloaded")) {
