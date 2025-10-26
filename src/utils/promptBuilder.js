@@ -300,7 +300,6 @@ export function handleGeminiError(errorData) {
 
 // 이미지 응답 처리 함수
 export function extractImageFromResponse(geminiResult) {
-  console.log('Gemini API Response:', geminiResult);
 
   try {
     // Gemini 2.5 Flash Image Preview의 응답 처리
@@ -310,7 +309,6 @@ export function extractImageFromResponse(geminiResult) {
       for (const part of candidate.content.parts) {
         // 텍스트 부분은 무시
         if (part.text) {
-          console.log('Response text:', part.text);
           continue;
         }
 
@@ -320,15 +318,13 @@ export function extractImageFromResponse(geminiResult) {
           const imageData = inlineData.data;
           const mimeType = inlineData.mimeType || inlineData.mime_type || 'image/png';
 
-          console.log('Found generated image with mimeType:', mimeType);
           return `data:${mimeType};base64,${imageData}`;
         }
       }
     }
 
-    console.warn('No image found in Gemini response');
   } catch (error) {
-    console.error('Failed to extract image from Gemini response:', error);
+    // Silent error handling
   }
 
   return null;

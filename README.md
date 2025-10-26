@@ -163,8 +163,9 @@ npm run deploy
 
 ### 🔒 API 키 보안 강화
 - `.env.example` 템플릿 파일 생성
-- 통합 API 키 사용 (`AIzaSyA_sS1_XoYuoiejIOn275SDU0gyhcunPYo`)
-- Gemini API와 Translation API 동일 키 사용
+- 환경 변수를 통한 안전한 API 키 관리
+- GitHub Secrets를 통한 프로덕션 배포
+- Gemini API와 Translation API 키 분리 관리 권장
 
 ### 💬 사용자 경험 개선
 - 이미지 재생성 안내 메시지 추가
